@@ -6,7 +6,8 @@ import componentTypesView from "@/components/component_type/ComponentTypesView";
 import employeesView from "@/components/employee/EmployeesView";
 
 const routes = [
-    {path: '/', name: 'Dashboard', component: DashboardView, position: 'sidebar'},
+    {path: '/', name: 'Home', redirect: '/dashboard', component: DashboardView, position: 'none'},
+    {path: '/dashboard', name: 'Dashboard', component: DashboardView, position: 'sidebar'},
     {path: '/component_types', name: 'Komponenten Typen', component: componentTypesView, position: 'sidebar'},
     {path: '/components', name: 'Komponenten', component: ComponentsView, position: 'sidebar'},
     {path: '/workstations', name: 'Workstations', component: WorkstationsView, position: 'sidebar'},
