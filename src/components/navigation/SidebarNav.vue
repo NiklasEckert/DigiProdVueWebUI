@@ -13,7 +13,8 @@
 export default {
   name: "SidebarNav",
   created() {
-    this.$router.options.routes.forEach(route => {
+    this.$router.options.routes.filter(route => route.position === "sidebar").forEach(route => {
+      console.log(route)
       this.navItems.push({
         name: route.name,
         path: route.path
