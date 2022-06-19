@@ -3,7 +3,7 @@
     <h1 class="text-2xl font-bold mb-7">IMACS DigiProd</h1>
     <ul>
       <li v-for="item in navItems" :key="item.name">
-        <router-link :to="item.path" active-class="bg-indigo-600 hover:bg-indigo-600 font-bold" class="block py-2 px-3 mb-1 hover:bg-indigo-600/50 hover:cursor-pointer rounded-md">{{ item.name }}</router-link>
+        <router-link :to="item.path" active-class="bg-indigo-600 hover:bg-indigo-600 font-bold drop-shadow-lg" class="block py-2 px-3 mb-1 hover:bg-indigo-600/50 hover:cursor-pointer rounded-md">{{ item.name }}</router-link>
       </li>
     </ul>
   </div>
