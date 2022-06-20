@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row">
     <sidebar-nav />
-    <div class="p-6">
+    <div class="flex-auto box-border">
       <router-view></router-view>
     </div>
   </div>
