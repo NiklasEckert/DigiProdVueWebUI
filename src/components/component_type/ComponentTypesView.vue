@@ -1,17 +1,24 @@
 <template>
-  <div class="flex flex-col h-screen box-border">
-    <div class="p-6 bg-slate-200">
+  <div
+      class="flex flex-col h-screen box-border w-96 bg-amber-50"
+      :class="{
+        'Dw-2/3': this.$route.matched.some(route => route.path.length > 'component-types/'.length),
+        'Dflex-auto': this.$route.matched.some(route => !(route.path.length > 'component-types/'.length))
+      }"
+  >
+    <div class="p-6">
       <h2 class="text-3xl font-bold mt-5">Komponenten Typen</h2>
       <ComponentTypeSearchBar class="mt-7" @compTypeSearch="(key) => this.fetchSearch(key)"/>
     </div>
 
-    <div class="overflow-scroll p-6 bg-slate-100 h-full">
+    <div class="overflow-scroll p-6 pt-0 h-full">
       <div v-if="loading" class="text-center">LOADING</div>
       <div v-if="!loading">
         <ComponentTypesTable :types="compTypeList"/>
       </div>
     </div>
   </div>
+  <router-view @saved="fetchData"></router-view>
 </template>
 
 <script>

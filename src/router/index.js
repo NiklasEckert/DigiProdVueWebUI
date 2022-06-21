@@ -4,14 +4,30 @@ import ComponentsView from "@/components/imacs_component/ComponentsView";
 import WorkstationsView from "@/components/workstation/WorkstationsView";
 import componentTypesView from "@/components/component_type/ComponentTypesView";
 import employeesView from "@/components/employee/EmployeesView";
+import componentTypeView from "@/components/component_type/ComponentTypeView";
+
+export const componentTypeRoute = {
+    path: '/component-types',
+    name: 'Komp. Typen',
+    component: componentTypesView,
+    position: 'sidebar',
+    icon: ['fas', 'microchip'],
+    children: [{
+        path: ':art',
+        name: 'Komp. Typ',
+        components: {
+            default: componentTypeView
+        }
+    }]
+}
 
 const routes = [
     {path: '/', name: 'Home', redirect: '/dashboard', component: DashboardView, position: 'none', icon: ['fas', 'lineChart']},
     {path: '/dashboard', name: 'Dashboard', component: DashboardView, position: 'sidebar', icon: ['fas', 'chart-line']},
-    {path: '/component_types', name: 'Komp. Typen', component: componentTypesView, position: 'sidebar', icon: ['fas', 'microchip']},
+    componentTypeRoute,
     {path: '/components', name: 'Komponenten', component: ComponentsView, position: 'sidebar', icon: ['fas', 'hard-drive']},
     {path: '/workstations', name: 'Workstations', component: WorkstationsView, position: 'sidebar', icon: ['fas', 'computer']},
-    {path: '/employee', name: 'Mitarbeiter', component: employeesView, position: 'sidebar', icon: ['fas', 'user-large']}
+    {path: '/employee', name: 'Mitarbeiter', component: employeesView, position: 'sidebar', icon: ['fas', 'user-large']},
 ]
 
 const router = createRouter({

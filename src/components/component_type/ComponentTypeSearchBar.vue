@@ -1,9 +1,18 @@
 <template>
-  <input
-      v-model="searchKey"
-      placeholder="Suche nach Artikel Nr. oder Namen"
-      class="min-w-full px-4 py-3 border-2 rounded bg-slate-50 outline-0 focus-visible:border-amber-500"
-  >
+  <div class="flex flex-row box-border">
+    <input
+        v-model="searchKey"
+        placeholder="Suche nach Artikel Nr. oder Namen"
+        class="flex-auto px-3 py-2 border-2 rounded-md bg-slate-50 outline-0 focus-visible:border-amber-500"
+    >
+    <button
+        class="bg-amber-200 hover:bg-amber-400 text-black hover:text-white block py-2 px-3 hover:cursor-pointer rounded-md ml-4"
+    >
+      <font-awesome-icon :icon="['fas', 'plus']" />
+      Add
+    </button>
+  </div>
+
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen w-64 bg-amber-200 text-black py-12 px-6">
+  <div class="flex-none h-screen w-64 bg-amber-200 text-black py-12 px-6">
     <h1 class="text-2xl font-bold mb-7">IMACS DigiProd</h1>
     <ul>
       <li v-for="item in navItems" :key="item.name">
