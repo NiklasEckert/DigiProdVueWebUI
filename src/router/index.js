@@ -5,6 +5,7 @@ import WorkstationsView from "@/components/workstation/WorkstationsView";
 import componentTypesView from "@/components/component_type/ComponentTypesView";
 import employeesView from "@/components/employee/EmployeesView";
 import componentTypeView from "@/components/component_type/ComponentTypeView";
+import NoItemSelectedView from "@/components/util/no_item_selected/NoItemSelectedView";
 
 export const componentTypeRoute = {
     path: '/component-types',
@@ -12,13 +13,25 @@ export const componentTypeRoute = {
     component: componentTypesView,
     position: 'sidebar',
     icon: ['fas', 'microchip'],
-    children: [{
-        path: ':art',
-        name: 'Komp. Typ',
-        components: {
-            default: componentTypeView
+    children: [
+        {
+            path: ':art',
+            name: 'Komp. Typ',
+            components: {
+                default: componentTypeView
+            }
+        },
+        {
+            path: '',
+            name: 'No CompType Selected',
+            component: NoItemSelectedView,
+            props: {
+                icon: ['fas', 'microchip'],
+                text_primary: "No Component Type selected",
+                text_secondary: "Click on a entry on the left!"
+            }
         }
-    }]
+    ]
 }
 
 const routes = [
