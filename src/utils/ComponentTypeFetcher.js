@@ -4,7 +4,8 @@ export const ComponentTypeFetcher = {
     getAllComponentTypes,
     getComponentType,
     searchForKey,
-    saveComponentType
+    saveComponentType,
+    deleteComponentType
 }
 
 function getAllComponentTypes() {
@@ -21,4 +22,8 @@ function searchForKey(searchKey) {
 
 function saveComponentType(body) {
     return fetchWrapper.post("componentType", body)
+}
+
+function deleteComponentType(id) {
+    return fetchWrapper.delete("componentType/" + id)
 }

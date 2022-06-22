@@ -27,7 +27,7 @@
 
         <button
             class="text-black block py-2 px-3 rounded-md ml-3 text-black bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer"
-            @click="saveComponentType"
+            @click="deleteComponentType"
         >
           <font-awesome-icon icon="fa-solid fa-trash" class="mr-1" />
           Delete
@@ -39,13 +39,14 @@
 
 <script>
 import {ComponentTypeFetcher} from "@/utils/ComponentTypeFetcher";
+import router from "@/router";
 
 export default {
   name: "ComponentTypeView",
   data() {
     return {
       loading: false,
-      compType: { name: "", articleNumber: "" },
+      compType: { id: "", name: "", articleNumber: "" },
       error: null,
       edited: false,
       changeWatcher: null
@@ -110,6 +111,23 @@ export default {
             this.loading = false
           })
     },
+    deleteComponentType() {
+      this.error = this.post = null
+      this.loading = true
+
+      ComponentTypeFetcher.deleteComponentType(this.compType.id)
+          .then(response => {
+            console.log("OK")
+            if (response.status === 200) {
+              router.push('/component-types')
+            }
+          })
+          .catch(error => {
+            this.error = error
+            this.loading = false
+            alert(this.error)
+          })
+    }
   }
 }
 </script>
