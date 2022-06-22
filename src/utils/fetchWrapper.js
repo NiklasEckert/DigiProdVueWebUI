@@ -46,5 +46,5 @@ function _delete(path) {
     const requestOptions = {
         method: 'DELETE'
     };
-    return fetch(URL + path, requestOptions)
+    return fetch(url + path, requestOptions)
 }
