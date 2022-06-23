@@ -10,7 +10,7 @@
           <span class="inline-block w-7">
             <font-awesome-icon :icon="item.icon" />
           </span>
-          {{ item.name }}
+          {{ item.navCaption }}
         </router-link>
       </li>
     </ul>
@@ -24,6 +24,7 @@ export default {
     this.$router.options.routes.filter(route => route.position === "sidebar").forEach(route => {
       console.log(route)
       this.navItems.push({
+        navCaption: route.navCaption,
         name: route.name,
         path: route.path,
         icon: route.icon

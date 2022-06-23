@@ -8,6 +8,7 @@ import componentTypeView from "@/components/component_type/ComponentTypeView";
 import NoItemSelectedView from "@/components/util/no_item_selected/NoItemSelectedView";
 
 export const componentTypeRoute = {
+    navCaption: "Comp. Types",
     path: '/component-types',
     name: 'Komp. Typen',
     component: componentTypesView,
@@ -35,12 +36,12 @@ export const componentTypeRoute = {
 }
 
 const routes = [
-    {path: '/', name: 'Home', redirect: '/dashboard', component: DashboardView, position: 'none', icon: ['fas', 'lineChart']},
-    {path: '/dashboard', name: 'Dashboard', component: DashboardView, position: 'sidebar', icon: ['fas', 'chart-line']},
+    {navCaption: "Home", path: '/', name: 'Home', redirect: '/dashboard', component: DashboardView, position: 'none', icon: ['fas', 'lineChart']},
+    {navCaption: "Dashboard", path: '/dashboard', name: 'Dashboard', component: DashboardView, position: 'sidebar', icon: ['fas', 'chart-line']},
     componentTypeRoute,
-    {path: '/components', name: 'Komponenten', component: ComponentsView, position: 'sidebar', icon: ['fas', 'hard-drive']},
-    {path: '/workstations', name: 'Workstations', component: WorkstationsView, position: 'sidebar', icon: ['fas', 'computer']},
-    {path: '/employee', name: 'Mitarbeiter', component: employeesView, position: 'sidebar', icon: ['fas', 'user-large']},
+    {navCaption: "Components", path: '/components', name: 'Komponenten', component: ComponentsView, position: 'sidebar', icon: ['fas', 'hard-drive']},
+    {navCaption: "Workstations", path: '/workstations', name: 'Workstations', component: WorkstationsView, position: 'sidebar', icon: ['fas', 'computer']},
+    {navCaption: "Employees", path: '/employee', name: 'Mitarbeiter', component: employeesView, position: 'sidebar', icon: ['fas', 'user-large']},
 ]
 
 const router = createRouter({
