@@ -10,8 +10,11 @@ import { faHardDrive } from "@fortawesome/free-solid-svg-icons";
 import { faComputer } from "@fortawesome/free-solid-svg-icons";
 import { faUserLarge } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPuzzlePiece } from "@fortawesome/free-solid-svg-icons";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faScissors } from "@fortawesome/free-solid-svg-icons";
+import { faSkull } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(faLineChart)
@@ -22,6 +25,9 @@ library.add(faUserLarge)
 library.add(faPlus)
 library.add(faFloppyDisk)
 library.add(faTrash)
+library.add(faPuzzlePiece)
+library.add(faScissors)
+library.add(faSkull)
 
 createApp(App)
     .use(router)
