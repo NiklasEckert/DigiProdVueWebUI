@@ -7,7 +7,7 @@
       <tr :href="href" @click="navigate"
           class="hover:bg-gray-100 border-b transition duration-300 hover:cursor-pointer">
         <td class="py-2">
-          <div class="px 4" style="font-weight: bold">
+          <div class="px 4 px-1" style="font-weight: bold">
             {{ comp.name }}
           </div>
           <br>

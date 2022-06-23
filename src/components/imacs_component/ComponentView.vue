@@ -28,7 +28,7 @@
 
     <div class="mt-4 pr-4">
       <label class="block text-xs text-black/50">Birthdate</label>
-      <label class="text-xl outline-0 border-b w-full">{{ this.component.formattedDate }}</label>
+      <label class="text-xl ">{{ this.component.formattedDate }}</label>
     </div>
 
     <div class="mt-4 pr-4">
@@ -51,7 +51,7 @@
 
     <div class="mt-12 flex flex-row">
       <button
-          class="text-black block py-2 px-3 rounded-md whitespace-nowrap"
+          class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg"
           :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.storable, 'text-gray-400 bg-amber-200/25': !this.storable}"
           :disabled="!this.storable"
           @click="saveComponentType"
@@ -61,7 +61,7 @@
       </button>
 
       <button
-          class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap"
+          class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
           :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
           @click="deleteComponentType"
           v-show="this.$route.query.id"
@@ -73,7 +73,7 @@
 
     <div class="mt-4 flex flex-row">
       <button
-          class="text-black block py-2 px-3 rounded-md whitespace-nowrap"
+          class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg"
           :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
       >
         <font-awesome-icon icon="fa-solid fa-puzzle-piece" class="mr-1"/>
@@ -81,7 +81,7 @@
       </button>
 
       <button
-          class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap"
+          class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
           :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
           v-show="this.$route.query.id"
       >
@@ -90,7 +90,7 @@
       </button>
 
       <button
-          class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap"
+          class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
           :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
           v-show="this.$route.query.id"
       >
@@ -120,7 +120,7 @@ export default {
         filePath: "",
         status: {},
         componentType: {},
-        formattedDate: "Unknown"
+        formattedDate: moment().format("YYYY MMM DD HH:mm")
       },
       error: null,
       storable: false,
@@ -149,7 +149,7 @@ export default {
               filePath: "",
               status: {},
               componentType: {},
-              formattedDate: "Unknown"
+              formattedDate: moment().format("YYYY MMM DD HH:mm")
             }
             this.loading = false
 
@@ -200,7 +200,7 @@ export default {
               }
 
               this.component = data
-              this.component.formattedDate = moment(data.birthdate).format("YYYY MM DD")
+              this.component.formattedDate = moment(data.birthdate).format("YYYY MMM DD HH:mm")
               this.loading = false
 
               this.changeWatcher = this.$watch(
