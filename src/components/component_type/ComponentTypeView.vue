@@ -29,7 +29,7 @@
             class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap"
             :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
             @click="deleteComponentType"
-            :disabled="!this.$route.query.id"
+            v-show="this.$route.query.id"
         >
           <font-awesome-icon icon="fa-solid fa-trash" class="mr-1" />
           Delete
