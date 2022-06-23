@@ -9,8 +9,8 @@
       {{ this.component.componentType.name }}
     </div>
     <div class="mt-6 pr-4">
-      <label for="inputField" class="block text-xs text-black/50">Article Number</label>
-      <input
+      <label for="if1" class="block text-xs text-black/50">Article Number</label>
+      <input id="if1"
           v-model="this.component.articleNumber"
           placeholder="Article Number"
           class="text-xl outline-0 border-b w-full"
@@ -18,8 +18,9 @@
     </div>
 
     <div class="mt-4 pr-4">
-      <label for="inputField" class="block text-xs text-black/50">Order number</label>
+      <label for="if2" class="block text-xs text-black/50">Order number</label>
       <input
+          id="if2"
           v-model="this.component.orderNumber"
           placeholder="Order number"
           class="text-xl outline-0 border-b w-full"
@@ -28,20 +29,22 @@
 
     <div class="mt-4 pr-4">
       <label class="block text-xs text-black/50">Birthdate</label>
-      <label class="text-xl ">{{ this.component.formattedDate }}</label>
+      <label class="text-xl ">{{ this.formattedDate }}</label>
     </div>
 
     <div class="mt-4 pr-4">
-      <label for="inputField" class="block text-xs text-black/50">Filepath</label>
+      <label for="if3" class="block text-xs text-black/50">Filepath</label>
       <input
+          id="if3"
           v-model="this.component.filePath"
           placeholder="Filepath"
           class="text-xl outline-0 border-b w-full"
       >
     </div>
     <div class="mt-4 pr-4">
-      <label for="inputField" class="block text-xs text-black/50">Location</label>
+      <label for="if4" class="block text-xs text-black/50">Location</label>
       <input
+          id="if4"
           v-model="this.component.location"
           placeholder="Location"
           class="text-xl outline-0 border-b w-full"
@@ -54,7 +57,7 @@
           class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg"
           :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.storable, 'text-gray-400 bg-amber-200/25': !this.storable}"
           :disabled="!this.storable"
-          @click="saveComponentType"
+          @click="saveComponent"
       >
         <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-1"/>
         Save
@@ -98,18 +101,23 @@
         Mark component as killed
       </button>
     </div>
+    <ComponentEventTable :component-id="component.id"/>
   </div>
 </template>
 
 <script>
 import {ComponentFetcher} from "@/utils/ComponentFetcher";
 import moment from "moment";
+import router from "@/router";
+import ComponentEventTable from "@/components/imacs_component/ComponentEventTable";
 
 export default {
   name: "ComponentView",
+  components: {ComponentEventTable},
   data() {
     return {
       loading: false,
+      formattedDate: moment().format("YYYY MMM DD HH:mm"),
       component: {
         id: "",
         name: "",
@@ -119,8 +127,7 @@ export default {
         location: "",
         filePath: "",
         status: {},
-        componentType: {},
-        formattedDate: moment().format("YYYY MMM DD HH:mm")
+        componentType: {}
       },
       error: null,
       storable: false,
@@ -149,7 +156,6 @@ export default {
               filePath: "",
               status: {},
               componentType: {},
-              formattedDate: moment().format("YYYY MMM DD HH:mm")
             }
             this.loading = false
 
@@ -172,20 +178,20 @@ export default {
   methods: {
     // TODO: MAchen
 
-    // saveComponentType() {
-    //   ComponentFetcher.s(this.compType)
-    //       .then(response => {
-    //         response.json().then(data => {
-    //           this.compType = data
-    //           this.storable = false
-    //           this.$emit('saved')
-    //           router.push({ name: 'compType', query: { id: data.id , viewMode: 'change' } })
-    //         })
-    //       })
-    //       .catch(error => {
-    //         this.error = error
-    //       })
-    // },
+    saveComponent() {
+      ComponentFetcher.saveComponent(this.component)
+          .then(response => {
+            response.json().then(data => {
+              this.component = data
+              this.storable = false
+              this.$emit('saved')
+              router.push({ name: 'components', query: { id: data.id , viewMode: 'change' } })
+            })
+          })
+          .catch(error => {
+            this.error = error
+          })
+    },
     fetchData() {
       this.error = null
       this.loading = true
@@ -200,7 +206,7 @@ export default {
               }
 
               this.component = data
-              this.component.formattedDate = moment(data.birthdate).format("YYYY MMM DD HH:mm")
+              this.formattedDate = moment(data.birthdate).format("YYYY MMM DD HH:mm")
               this.loading = false
 
               this.changeWatcher = this.$watch(
