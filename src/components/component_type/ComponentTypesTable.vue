@@ -1,8 +1,8 @@
 <template>
-  <table class="min-w-full">
+  <table class="table-fixed w-full">
     <thead>
       <tr class="border-b rounded-t">
-        <th scope="col" class="text-left px-6 py-4">ArtikelNr.</th>
+        <th scope="col" class="text-left px-6 py-4">Article Number</th>
         <th scope="col" class="text-left px-6 py-4">Name</th>
       </tr>
     </thead>

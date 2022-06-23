@@ -1,5 +1,5 @@
 <template>
-  <div class="w-1/3 h-full p-6">
+  <div class="h-full p-6">
     <label class="block text-xs text-black/50 mt-5">Component Type Name</label>
     <input
         v-model="this.compType.name"

@@ -4,7 +4,7 @@ import ComponentsView from "@/components/imacs_component/ComponentsView";
 import WorkstationsView from "@/components/workstation/WorkstationsView";
 import componentTypesView from "@/components/component_type/ComponentTypesView";
 import employeesView from "@/components/employee/EmployeesView";
-import componentTypeView from "@/components/component_type/ComponentTypeView";
+import componentTypeView from "@/components/component_type/ComponentTypeDetailScreen";
 import NoItemSelectedView from "@/components/util/no_item_selected/NoItemSelectedView";
 
 export const componentTypeRoute = {

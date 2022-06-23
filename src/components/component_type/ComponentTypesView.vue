@@ -1,38 +1,24 @@
 <template>
-  <div
-      class="flex flex-col h-screen box-border w-96 bg-amber-50"
-      :class="{
-        'Dw-2/3': this.$route.matched.some(route => route.path.length > 'component-types/'.length),
-        'Dflex-auto': this.$route.matched.some(route => !(route.path.length > 'component-types/'.length))
-      }"
+  <SelectionSidebar
+      headline="Component Types"
+      search-bar-placeholder="Name or Article Number"
+      @searchKeyEntered="(key) => fetchSearch(key)"
+      @addButtonPressed="() => $router.push({ name: 'compType', query: { viewMode: 'creation' }})"
   >
-    <div class="p-6">
-      <h2 class="text-3xl font-bold mt-5">Komponenten Typen</h2>
-      <ComponentTypeSearchBar
-          class="mt-7"
-          @compTypeSearch="(key) => this.fetchSearch(key)"
-          @addNewComponentType="() => $router.push({ name: 'compType', query: { viewMode: 'creation' }})"
-      />
-    </div>
-
-    <div class="overflow-scroll p-6 pt-0 h-full">
-      <div v-if="loading" class="text-center">LOADING</div>
-      <div v-if="!loading">
-        <ComponentTypesTable :types="compTypeList"/>
-      </div>
-    </div>
-  </div>
+    <div v-if="loading" class="text-center">LOADING</div>
+    <ComponentTypesTable :types="compTypeList" v-if="!loading"/>
+  </SelectionSidebar>
   <router-view @saved="fetchData"></router-view>
 </template>
 
 <script>
 import {ComponentTypeFetcher} from "@/utils/ComponentTypeFetcher";
 import ComponentTypesTable from "@/components/component_type/ComponentTypesTable";
-import ComponentTypeSearchBar from "@/components/component_type/ComponentTypeSearchBar";
+import SelectionSidebar from "@/components/util/selection_sidebar/SelectionSidebar";
 
 export default {
   name: "ComponentTypesView",
-  components: {ComponentTypeSearchBar, ComponentTypesTable},
+  components: {SelectionSidebar, ComponentTypesTable},
   data() {
     return {
       loading: false,
