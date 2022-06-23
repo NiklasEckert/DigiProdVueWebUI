@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row">
     <sidebar-nav />
-    <div class="p-6">
+    <div class="flex flex-row box-border w-full">
       <router-view></router-view>
     </div>
   </div>
@@ -14,7 +14,6 @@ export default {
   name: 'App',
   components: {
     SidebarNav
-
   }
 }
 </script>
