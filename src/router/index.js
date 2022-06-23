@@ -10,21 +10,19 @@ import NoItemSelectedView from "@/components/util/no_item_selected/NoItemSelecte
 export const componentTypeRoute = {
     navCaption: "Comp. Types",
     path: '/component-types',
-    name: 'Komp. Typen',
+    name: 'compTypes',
     component: componentTypesView,
     position: 'sidebar',
     icon: ['fas', 'microchip'],
     children: [
         {
-            path: ':art',
-            name: 'Komp. Typ',
-            components: {
-                default: componentTypeView
-            }
+            path: 'type',
+            name: 'compType',
+            component: componentTypeView
         },
         {
             path: '',
-            name: 'No CompType Selected',
+            name: 'noCompTypeSelected',
             component: NoItemSelectedView,
             props: {
                 icon: ['fas', 'microchip'],

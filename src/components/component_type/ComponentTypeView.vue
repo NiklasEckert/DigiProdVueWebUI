@@ -16,9 +16,9 @@
 
       <div class="mt-12 flex flex-row">
         <button
-            class="text-black block py-2 px-3 rounded-md"
-            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.edited, 'text-gray-400 bg-amber-200/25': !this.edited}"
-            :disabled="!this.edited"
+            class="text-black block py-2 px-3 rounded-md whitespace-nowrap"
+            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.storable, 'text-gray-400 bg-amber-200/25': !this.storable}"
+            :disabled="!this.storable"
             @click="saveComponentType"
         >
           <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-1" />
@@ -26,8 +26,10 @@
         </button>
 
         <button
-            class="text-black block py-2 px-3 rounded-md ml-3 text-black bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer"
+            class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap"
+            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
             @click="deleteComponentType"
+            :disabled="!this.$route.query.id"
         >
           <font-awesome-icon icon="fa-solid fa-trash" class="mr-1" />
           Delete
@@ -48,15 +50,35 @@ export default {
       loading: false,
       compType: { id: "", name: "", articleNumber: "" },
       error: null,
-      edited: false,
+      storable: false,
       changeWatcher: null
     }
   },
   created() {
     this.$watch(
-        () => this.$route.params,
+        () => this.$route.query,
         () => {
-          this.fetchData()
+          if (this.$route.query.id && this.$route.query.viewMode !== 'creation') {
+            this.fetchData()
+          } else {
+            if (this.changeWatcher !== null) {
+              this.storable = false
+              this.changeWatcher()
+            }
+
+            this.compType = { id: "", name: "", articleNumber: "" }
+            this.loading = false
+
+            this.changeWatcher = this.$watch(
+                () => this.compType,
+                () => {
+                  this.storable = true
+                },
+                {
+                  deep: true
+                }
+            )
+          }
         },
         {
           immediate: true
@@ -69,8 +91,9 @@ export default {
           .then(response => {
             response.json().then(data => {
               this.compType = data
-              this.edited = false
+              this.storable = false
               this.$emit('saved')
+              router.push({ name: 'compType', query: { id: data.id , viewMode: 'change' } })
             })
           })
           .catch(error => {
@@ -78,27 +101,25 @@ export default {
           })
     },
     fetchData() {
-      this.error = this.post = null
+      this.error = null
       this.loading = true
 
-      ComponentTypeFetcher.getComponentType(this.$route.params.art)
+      ComponentTypeFetcher.getComponentType(this.$route.query.id)
           .then(response => {
             response.json().then(data => {
 
               if (this.changeWatcher !== null) {
-                console.log("unwatch")
-                this.edited = false
+                this.storable = false
                 this.changeWatcher()
               }
 
               this.compType = data
               this.loading = false
 
-              console.log("watch")
               this.changeWatcher = this.$watch(
                   () => this.compType,
                   () => {
-                    this.edited = true
+                    this.storable = true
                   },
                   {
                     deep: true
@@ -112,15 +133,18 @@ export default {
           })
     },
     deleteComponentType() {
-      this.error = this.post = null
+      this.error = null
       this.loading = true
 
       ComponentTypeFetcher.deleteComponentType(this.compType.id)
           .then(response => {
-            console.log("OK")
             if (response.status === 200) {
-              router.push('/component-types')
+              alert("Successfully deleted")
+              router.push({ name: 'noCompTypeSelected'})
+            } else {
+              this.error = response.status
             }
+            this.loading = false
           })
           .catch(error => {
             this.error = error

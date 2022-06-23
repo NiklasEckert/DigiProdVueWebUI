@@ -8,7 +8,11 @@
   >
     <div class="p-6">
       <h2 class="text-3xl font-bold mt-5">Komponenten Typen</h2>
-      <ComponentTypeSearchBar class="mt-7" @compTypeSearch="(key) => this.fetchSearch(key)"/>
+      <ComponentTypeSearchBar
+          class="mt-7"
+          @compTypeSearch="(key) => this.fetchSearch(key)"
+          @addNewComponentType="() => $router.push({ name: 'compType', query: { viewMode: 'creation' }})"
+      />
     </div>
 
     <div class="overflow-scroll p-6 pt-0 h-full">
