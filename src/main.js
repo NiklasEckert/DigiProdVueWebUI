@@ -9,6 +9,9 @@ import { faMicrochip } from "@fortawesome/free-solid-svg-icons";
 import { faHardDrive } from "@fortawesome/free-solid-svg-icons";
 import { faComputer } from "@fortawesome/free-solid-svg-icons";
 import { faUserLarge } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(faLineChart)
@@ -16,6 +19,9 @@ library.add(faMicrochip)
 library.add(faHardDrive)
 library.add(faComputer)
 library.add(faUserLarge)
+library.add(faPlus)
+library.add(faFloppyDisk)
+library.add(faTrash)
 
 createApp(App)
     .use(router)

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen w-64 bg-amber-200 text-black py-12 px-6">
+  <div class="flex-none h-screen w-64 bg-amber-200 text-black py-12 px-6">
     <h1 class="text-2xl font-bold mb-7">IMACS DigiProd</h1>
     <ul>
       <li v-for="item in navItems" :key="item.name">
@@ -10,7 +10,7 @@
           <span class="inline-block w-7">
             <font-awesome-icon :icon="item.icon" />
           </span>
-          {{ item.name }}
+          {{ item.navCaption }}
         </router-link>
       </li>
     </ul>
@@ -24,6 +24,7 @@ export default {
     this.$router.options.routes.filter(route => route.position === "sidebar").forEach(route => {
       console.log(route)
       this.navItems.push({
+        navCaption: route.navCaption,
         name: route.name,
         path: route.path,
         icon: route.icon
