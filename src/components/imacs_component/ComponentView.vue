@@ -110,7 +110,6 @@
 <script>
 import {ComponentFetcher} from "@/utils/ComponentFetcher";
 import moment from "moment";
-import router from "@/router";
 import ComponentEventTable from "@/components/imacs_component/ComponentEventTable";
 import {ComponentTypeFetcher} from "@/utils/ComponentTypeFetcher";
 import {componentSearchState} from "@/components/imacs_component/Component";
@@ -199,7 +198,6 @@ export default {
               this.component = data
               this.storable = false
               this.$emit('saved')
-              router.push({name: 'components', query: {id: data.id, viewMode: 'change'}})
               componentSearchState.lastVisitedId = data.id
             })
           })
