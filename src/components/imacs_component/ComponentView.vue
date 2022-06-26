@@ -6,14 +6,20 @@
         class="text-3xl font-bold outline-0 w-full mt-5"
     >
     <div>
-      {{ this.component.componentType.name }}
+      <select class="form-control" @change="changeComponentType($event)">
+        <option selected disabled>{{ this.component.componentType.name ?? "Choose type of component" }}</option>
+        <option v-for="componentType in compTypeList" :value="componentType.name" :key="componentType.id">
+          {{ componentType.name }}
+        </option>
+      </select>
     </div>
+
     <div class="mt-6 pr-4">
       <label for="if1" class="block text-xs text-black/50">Article Number</label>
       <input id="if1"
-          v-model="this.component.articleNumber"
-          placeholder="Article Number"
-          class="text-xl outline-0 border-b w-full"
+             v-model="this.component.articleNumber"
+             placeholder="Article Number"
+             class="text-xl outline-0 border-b w-full"
       >
     </div>
 
@@ -49,6 +55,11 @@
           placeholder="Location"
           class="text-xl outline-0 border-b w-full"
       >
+    </div>
+
+    <div class="mt-4 pr-4">
+      <label class="block text-xs text-black/50">Status</label>
+      <label class="text-xl ">{{ this.component.status.statusName }}</label>
     </div>
 
 
@@ -97,7 +108,7 @@
           :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
           v-show="this.$route.query.id"
       >
-        <font-awesome-icon icon="fa-solid fa-skull" class="mr-1" />
+        <font-awesome-icon icon="fa-solid fa-skull" class="mr-1"/>
         Mark component as killed
       </button>
     </div>
@@ -110,12 +121,14 @@ import {ComponentFetcher} from "@/utils/ComponentFetcher";
 import moment from "moment";
 import router from "@/router";
 import ComponentEventTable from "@/components/imacs_component/ComponentEventTable";
+import {ComponentTypeFetcher} from "@/utils/ComponentTypeFetcher";
 
 export default {
   name: "ComponentView",
   components: {ComponentEventTable},
   data() {
     return {
+      compTypeList: [],
       loading: false,
       formattedDate: moment().format("YYYY MMM DD HH:mm"),
       component: {
@@ -126,7 +139,9 @@ export default {
         birthDate: 0,
         location: "",
         filePath: "",
-        status: {},
+        status: {
+          statusName: "Created"
+        },
         componentType: {}
       },
       error: null,
@@ -140,7 +155,9 @@ export default {
         () => {
           if (this.$route.query.id && this.$route.query.viewMode !== 'creation') {
             this.fetchData()
+            this.fetchComponentTypes()
           } else {
+            this.fetchComponentTypes()
             if (this.changeWatcher !== null) {
               this.storable = false
               this.changeWatcher()
@@ -154,7 +171,9 @@ export default {
               birthDate: 0,
               location: "",
               filePath: "",
-              status: {},
+              status: {
+                statusName: "Created"
+              },
               componentType: {},
             }
             this.loading = false
@@ -176,8 +195,11 @@ export default {
     )
   },
   methods: {
-    // TODO: MAchen
-
+    changeComponentType(event) {
+      this.component.componentType = this.compTypeList.find(comp => {
+        return comp.name === event.target.value
+      })
+    },
     saveComponent() {
       ComponentFetcher.saveComponent(this.component)
           .then(response => {
@@ -185,7 +207,7 @@ export default {
               this.component = data
               this.storable = false
               this.$emit('saved')
-              router.push({ name: 'components', query: { id: data.id , viewMode: 'change' } })
+              router.push({name: 'components', query: {id: data.id, viewMode: 'change'}})
             })
           })
           .catch(error => {
@@ -224,28 +246,23 @@ export default {
             this.error = error
             this.loading = false
           })
+    },
+    fetchComponentTypes() {
+      this.error = this.post = null
+      this.loading = true
+
+      ComponentTypeFetcher.getAllComponentTypes()
+          .then(response => {
+            response.json().then(data => {
+              this.compTypeList = data
+              this.loading = false
+            })
+          })
+          .catch(error => {
+            this.error = error
+            this.loading = false
+          })
     }
-    // ,
-    // deleteComponentType() {
-    //   this.error = null
-    //   this.loading = true
-    //
-    //   ComponentTypeFetcher.deleteComponentType(this.compType.id)
-    //       .then(response => {
-    //         if (response.status === 200) {
-    //           alert("Successfully deleted")
-    //           router.push({ name: 'noCompTypeSelected'})
-    //         } else {
-    //           this.error = response.status
-    //         }
-    //         this.loading = false
-    //       })
-    //       .catch(error => {
-    //         this.error = error
-    //         this.loading = false
-    //         alert(this.error)
-    //       })
-    // }
   }
 }
 </script>

@@ -21,7 +21,7 @@ function saveComponent(component) {
 }
 
 function searchForKey(searchKey) {
-    return fetchWrapper.get("component/search?" + new URLSearchParams({ key: searchKey }))
+    return fetchWrapper.get("component/search?" + new URLSearchParams({ param: searchKey }))
 }
 
 function getEventsForComponent(id) {

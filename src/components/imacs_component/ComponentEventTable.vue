@@ -71,11 +71,10 @@ export default {
     fetchData() {
       this.error = null
       this.loading = true
-
       ComponentFetcher.getEventsForComponent(this.componentId)
           .then(response => {
             response.json().then(data => {
-              this.eventList = data.map( event => {
+              this.eventList = data.map(event => {
                 event.formattedStartDate = moment(event.startDate).format("YYYY MMM DD HH:mm")
                 event.formattedEndDate = moment(event.endDate).format("YYYY MMM DD HH:mm")
                 return event
