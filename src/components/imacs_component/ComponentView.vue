@@ -122,6 +122,7 @@ import moment from "moment";
 import router from "@/router";
 import ComponentEventTable from "@/components/imacs_component/ComponentEventTable";
 import {ComponentTypeFetcher} from "@/utils/ComponentTypeFetcher";
+import {componentSearchState} from "@/components/imacs_component/Component";
 
 export default {
   name: "ComponentView",
@@ -208,6 +209,7 @@ export default {
               this.storable = false
               this.$emit('saved')
               router.push({name: 'components', query: {id: data.id, viewMode: 'change'}})
+              componentSearchState.lastVisitedId = data.id
             })
           })
           .catch(error => {
@@ -230,6 +232,7 @@ export default {
               this.component = data
               this.formattedDate = moment(data.birthdate).format("YYYY MMM DD HH:mm")
               this.loading = false
+              componentSearchState.lastVisitedId = data.id
 
               this.changeWatcher = this.$watch(
                   () => this.component,

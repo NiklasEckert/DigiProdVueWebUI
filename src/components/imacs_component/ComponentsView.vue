@@ -30,14 +30,13 @@ export default {
     }
   },
   created() {
-
     if (componentSearchState.fresh) {
       this.fetchSearch("")
       componentSearchState.fresh = false
     }
 
     if (componentSearchState.lastVisitedId != null) {
-      this.$router.push({ name: 'compType', query: { id: componentSearchState.lastVisitedId, viewMode: 'change' }})
+      this.$router.push({ name: 'component', query: { id: componentSearchState.lastVisitedId, viewMode: 'change' }})
     }
   },
   methods: {
@@ -76,7 +75,7 @@ export default {
           })
     },
     onItemDeleted() {
-      this.fetchSearch(this.componentTypesSearchState.key)
+      this.fetchSearch(this.componentSearchState.key)
     }
   }
 }
