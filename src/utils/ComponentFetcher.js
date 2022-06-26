@@ -5,7 +5,8 @@ export const ComponentFetcher = {
     getComponent,
     searchForKey,
     saveComponent,
-    getEventsForComponent
+    getEventsForComponent,
+    markAsKilled
 }
 
 function getAllComponents() {
@@ -26,4 +27,8 @@ function searchForKey(searchKey) {
 
 function getEventsForComponent(id) {
     return fetchWrapper.get("component/" + id + "/events")
+}
+
+function markAsKilled(id) {
+    return fetchWrapper.patch("component/" + id + "/status", {statusName: "Killed"})
 }

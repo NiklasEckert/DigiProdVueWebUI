@@ -73,16 +73,6 @@
         <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-1"/>
         Save
       </button>
-
-      <button
-          class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
-          :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
-          @click="deleteComponentType"
-          v-show="this.$route.query.id"
-      >
-        <font-awesome-icon icon="fa-solid fa-trash" class="mr-1"/>
-        Delete from database
-      </button>
     </div>
 
     <div class="mt-4 flex flex-row">
@@ -107,6 +97,7 @@
           class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
           :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
           v-show="this.$route.query.id"
+          @click="markAsKilled"
       >
         <font-awesome-icon icon="fa-solid fa-skull" class="mr-1"/>
         Mark component as killed
@@ -215,6 +206,23 @@ export default {
           .catch(error => {
             this.error = error
           })
+    },
+    markAsKilled() {
+      let ok = confirm('Do you want to mark this component as killed?');
+      if (ok) {
+      ComponentFetcher.markAsKilled(this.component.id)
+          .then(response => {
+            response.json().then(data => {
+              this.component.status = data
+              this.storable = false
+              this.$emit('saved')
+              this.component.status = data.status
+            })
+          })
+          .catch(error => {
+            this.error = error
+          })
+        }
     },
     fetchData() {
       this.error = null
