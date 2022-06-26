@@ -3,7 +3,7 @@
     <div class="p-6">
       <SelectionSidebarHeadline :headline="this.headline" />
       <div class="flex flex-row box-border mt-7">
-        <SearchBar :placeholder="this.searchBarPlaceholder" @searchKeyEntered="(key) => this.$emit('searchKeyEntered', key)" />
+        <SearchBar :placeholder="this.searchBarPlaceholder" @searchKeyEntered="(key) => this.$emit('searchKeyEntered', key)" :initial-text="this.searchText" />
 
         <StandardButton enabled="true" @click="() => this.$emit('addButtonPressed')">
           <font-awesome-icon :icon="['fas', 'plus']" />
@@ -25,7 +25,7 @@ import StandardButton from "@/components/util/StandardButton";
 
 export default {
   name: "SelectionSidebar",
-  props: ['headline', 'searchBarPlaceholder'],
+  props: ['headline', 'searchBarPlaceholder', 'searchText'],
   components: {
     StandardButton,
     SearchBar,
