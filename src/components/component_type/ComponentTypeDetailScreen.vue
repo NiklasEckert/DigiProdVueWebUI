@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full p-6">
+  <DetailScreenContainer>
     <label class="block text-xs text-black/50 mt-5">Component Type Name</label>
     <input
         v-model="this.compType.name"
@@ -36,15 +36,18 @@
         </button>
       </div>
     </div>
-  </div>
+  </DetailScreenContainer>
 </template>
 
 <script>
 import {ComponentTypeFetcher} from "@/utils/ComponentTypeFetcher";
 import router from "@/router";
+import DetailScreenContainer from "@/components/util/detail_screen_container/DetailScreenContainer";
+import {componentTypesSearchState} from "@/components/component_type/componentTypes";
 
 export default {
   name: "ComponentTypeView",
+  components: {DetailScreenContainer},
   data() {
     return {
       loading: false,
@@ -94,6 +97,7 @@ export default {
               this.storable = false
               this.$emit('saved')
               router.push({ name: 'compType', query: { id: data.id , viewMode: 'change' } })
+              componentTypesSearchState.lastVisitedId = data.id
             })
           })
           .catch(error => {
@@ -115,6 +119,7 @@ export default {
 
               this.compType = data
               this.loading = false
+              componentTypesSearchState.lastVisitedId = data.id
 
               this.changeWatcher = this.$watch(
                   () => this.compType,
@@ -141,6 +146,8 @@ export default {
             if (response.status === 200) {
               alert("Successfully deleted")
               router.push({ name: 'noCompTypeSelected'})
+              componentTypesSearchState.lastVisitedId = null
+              this.$emit('deleted')
             } else {
               this.error = response.status
             }
