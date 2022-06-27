@@ -37,6 +37,7 @@
       </div>
     </div>
   </DetailScreenContainer>
+
   <ModalDialog
       v-show="isDeleteDialogVisible"
       title="Delete Component Type?"
@@ -50,6 +51,8 @@
       </button>
     </template>
   </ModalDialog>
+
+  <ErrorDialog v-show="isErrorDialogVisible" :error_code="this.error" @cancel="this.isErrorDialogVisible = false"/>
 </template>
 
 <script>
@@ -58,10 +61,12 @@ import router from "@/router";
 import DetailScreenContainer from "@/components/util/detail_screen_container/DetailScreenContainer";
 import {componentTypesSearchState} from "@/components/component_type/componentTypes";
 import ModalDialog from "@/components/util/dialogs/ModalDialog";
+import ErrorDialog from "@/components/util/dialogs/ErrorDialog";
 
 export default {
   name: "ComponentTypeDetailScreen",
   components: {
+    ErrorDialog,
     DetailScreenContainer,
     ModalDialog
   },
@@ -72,7 +77,8 @@ export default {
       error: null,
       storable: false,
       changeWatcher: null,
-      isDeleteDialogVisible: false
+      isDeleteDialogVisible: false,
+      isErrorDialogVisible: false,
     }
   },
   created() {
@@ -110,6 +116,13 @@ export default {
     saveComponentType() {
       ComponentTypeFetcher.saveComponentType(this.compType)
           .then(response => {
+            if (!response.ok) {
+              throw Error(response.statusText)
+            }
+
+            return response
+          })
+          .then(response => {
             response.json().then(data => {
               this.compType = data
               this.storable = false
@@ -120,6 +133,8 @@ export default {
           })
           .catch(error => {
             this.error = error
+            this.loading = false
+            this.isErrorDialogVisible = true
           })
     },
     fetchData() {
@@ -153,6 +168,7 @@ export default {
           .catch(error => {
             this.error = error
             this.loading = false
+            this.isErrorDialogVisible = true
           })
     },
     deleteComponentType() {
@@ -163,20 +179,23 @@ export default {
 
       ComponentTypeFetcher.deleteComponentType(this.compType.id)
           .then(response => {
-            if (response.status === 200) {
-              router.push({ name: 'noCompTypeSelected'})
-              componentTypesSearchState.lastVisitedId = null
-              this.$emit('deleted')
-            } else {
-              this.error = response.status
-              alert(this.error)
+            if (!response.ok) {
+              throw Error(response.status)
             }
+
+            return response
+          })
+          .then(() => {
+            router.push({ name: 'noCompTypeSelected'})
+            componentTypesSearchState.lastVisitedId = null
+            this.$emit('deleted')
             this.loading = false
           })
           .catch(error => {
             this.error = error
             this.loading = false
-            alert(this.error)
+            this.isErrorDialogVisible = true
+
           })
     }
   }
