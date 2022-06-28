@@ -4,8 +4,8 @@ import ComponentsView from "@/components/imacs_component/ComponentsView";
 import WorkstationsView from "@/components/workstation/WorkstationsView";
 import componentTypesView from "@/components/component_type/ComponentTypesView";
 import employeesView from "@/components/employee/EmployeesView";
-import componentTypeView from "@/components/component_type/ComponentTypeDetailScreen";
 import NoItemSelectedView from "@/components/util/no_item_selected/NoItemSelectedView";
+import ComponentTypeDetailScreen from "@/components/component_type/ComponentTypeDetailScreen";
 
 export const componentTypeRoute = {
     navCaption: "Comp. Types",
@@ -18,7 +18,7 @@ export const componentTypeRoute = {
         {
             path: 'type',
             name: 'compType',
-            component: componentTypeView
+            component: ComponentTypeDetailScreen
         },
         {
             path: '',

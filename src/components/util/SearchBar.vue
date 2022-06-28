@@ -9,10 +9,10 @@
 <script>
 export default {
   name: "SearchBar",
-  props: ['placeholder'],
+  props: ['placeholder', 'initialText'],
   data() {
     return {
-      searchKey: "",
+      searchKey: this.initialText,
       timeout: null
     }
   },
