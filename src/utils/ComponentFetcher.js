@@ -6,7 +6,13 @@ export const ComponentFetcher = {
     searchForKey,
     saveComponent,
     getEventsForComponent,
-    markAsKilled
+    markAsKilled,
+    deleteComponent,
+    disconnectFromParent
+}
+
+function disconnectFromParent(id) {
+    return fetchWrapper.patch( "component/" + id + "/removeParent")
 }
 
 function getAllComponents() {
@@ -31,4 +37,8 @@ function getEventsForComponent(id) {
 
 function markAsKilled(id) {
     return fetchWrapper.patch("component/" + id + "/status", {statusName: "Killed"})
+}
+
+function deleteComponent(id) {
+    return fetchWrapper.delete("component/" + id)
 }

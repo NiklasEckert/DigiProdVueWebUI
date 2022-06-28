@@ -71,33 +71,47 @@
           @click="saveComponent"
       >
         <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-1"/>
-        Save
-      </button>
-    </div>
-
-    <div class="mt-4 flex flex-row">
-      <button
-          class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg"
-          :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
-      >
-        <font-awesome-icon icon="fa-solid fa-puzzle-piece" class="mr-1"/>
-        Add subcomponent
-      </button>
-
-      <button
-          class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
-          :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
-          v-show="this.$route.query.id"
-      >
-        <font-awesome-icon icon="fa-solid fa-scissors" class="mr-1"/>
-        Disconnect component
+        Save (WIP)
       </button>
 
       <button
           class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
           :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
           v-show="this.$route.query.id"
+          @click="deleteComponent"
+      >
+        <font-awesome-icon icon="fa-solid fa-trash" class="mr-1"/>
+        Delete from database
+      </button>
+
+    </div>
+
+    <div class="mt-4 flex flex-row">
+      <button
+          class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg "
+          :class="{ 'text-gray-400 bg-amber-200/25': true}"
+          :disabled="true"
+          v-show="this.$route.query.id"
+      >
+        <font-awesome-icon icon="fa-solid fa-puzzle-piece" class="mr-1"/>
+        Add subcomponent (WIP)
+      </button>
+
+      <button
+          class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
+          :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.component.parentId }"
+          @click="disconnectFromParent"
+          v-show="this.$route.query.id"
+      >
+        <font-awesome-icon icon="fa-solid fa-scissors" class="mr-1"/>
+        Disconnect from parent
+      </button>
+
+      <button
+          class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
+          :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id, 'text-gray-400 bg-amber-200/25': this.component.status.statusName === 'Killed'}"
           @click="markAsKilled"
+          v-show="this.$route.query.id"
       >
         <font-awesome-icon icon="fa-solid fa-skull" class="mr-1"/>
         Mark component as killed
@@ -186,6 +200,32 @@ export default {
     )
   },
   methods: {
+    deleteComponent() {
+      ComponentFetcher.deleteComponent(this.component.id)
+          .then(response => {
+            response.json().then(data => {
+              this.component = data
+              this.storable = false
+              componentSearchState.lastVisitedId = null
+            })
+          })
+          .catch(error => {
+            this.error = error
+          })
+    },
+    disconnectFromParent() {
+      ComponentFetcher.disconnectFromParent(this.component.id)
+          .then(response => {
+            response.json().then(data => {
+              this.component = data
+              this.storable = false
+              componentSearchState.lastVisitedId = data.id
+            })
+          })
+          .catch(error => {
+            this.error = error
+          })
+    },
     changeComponentType(event) {
       this.component.componentType = this.compTypeList.find(comp => {
         return comp.name === event.target.value
