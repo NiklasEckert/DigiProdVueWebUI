@@ -1,10 +1,11 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import DashboardView from "@/components/dashboard/DashboardView";
-import ComponentsView from "@/components/imacs_component/ComponentsView";
 import WorkstationsView from "@/components/workstation/WorkstationsView";
 import componentTypesView from "@/components/component_type/ComponentTypesView";
 import employeesView from "@/components/employee/EmployeesView";
 import NoItemSelectedView from "@/components/util/no_item_selected/NoItemSelectedView";
+import componentsView from "@/components/imacs_component/ComponentsView";
+import componentView from "@/components/imacs_component/ComponentView";
 import ComponentTypeDetailScreen from "@/components/component_type/ComponentTypeDetailScreen";
 
 export const componentTypeRoute = {
@@ -33,11 +34,37 @@ export const componentTypeRoute = {
     ]
 }
 
+export const componentRoute = {
+    navCaption: "Components",
+    path: '/components',
+    name: 'components',
+    component: componentsView,
+    position: 'sidebar',
+    icon: ['fas', 'hard-drive'],
+    children: [
+        {
+            path: 'component',
+            name: 'component',
+            component: componentView
+        },
+        {
+            path: '',
+            name: 'noComponentSelected',
+            component: NoItemSelectedView,
+            props: {
+                icon: ['fas', 'hard-drive'],
+                text_primary: "No Component selected",
+                text_secondary: "Click on a entry on the left!"
+            }
+        }
+    ]
+}
+
 const routes = [
     {navCaption: "Home", path: '/', name: 'Home', redirect: '/dashboard', component: DashboardView, position: 'none', icon: ['fas', 'lineChart']},
     {navCaption: "Dashboard", path: '/dashboard', name: 'Dashboard', component: DashboardView, position: 'sidebar', icon: ['fas', 'chart-line']},
     componentTypeRoute,
-    {navCaption: "Components", path: '/components', name: 'Komponenten', component: ComponentsView, position: 'sidebar', icon: ['fas', 'hard-drive']},
+    componentRoute,
     {navCaption: "Workstations", path: '/workstations', name: 'Workstations', component: WorkstationsView, position: 'sidebar', icon: ['fas', 'computer']},
     {navCaption: "Employees", path: '/employee', name: 'Mitarbeiter', component: employeesView, position: 'sidebar', icon: ['fas', 'user-large']},
 ]
