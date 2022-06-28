@@ -60,7 +60,7 @@ export default {
     this.$watch(
         () => this.componentId,
         () => {
-          this.fetchData()
+          // this.fetchData()
         },
         {
           immediate: true
@@ -74,6 +74,7 @@ export default {
       ComponentFetcher.getEventsForComponent(this.componentId)
           .then(response => {
             response.json().then(data => {
+              console.log(data)
               this.eventList = data.map(event => {
                 event.formattedStartDate = moment(event.startDate).format("YYYY MMM DD HH:mm")
                 event.formattedEndDate = moment(event.endDate).format("YYYY MMM DD HH:mm")

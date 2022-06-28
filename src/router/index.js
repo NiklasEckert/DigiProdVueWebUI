@@ -49,7 +49,7 @@ export const componentRoute = {
         },
         {
             path: '',
-            name: 'noCompSelected',
+            name: 'noComponentSelected',
             component: NoItemSelectedView,
             props: {
                 icon: ['fas', 'hard-drive'],
