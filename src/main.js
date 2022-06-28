@@ -16,6 +16,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faScissors } from "@fortawesome/free-solid-svg-icons";
 import { faSkull } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import {faXmark} from "@fortawesome/free-solid-svg-icons/faXmark";
 
 library.add(faLineChart)
 library.add(faMicrochip)
@@ -28,6 +29,7 @@ library.add(faTrash)
 library.add(faPuzzlePiece)
 library.add(faScissors)
 library.add(faSkull)
+library.add(faXmark)
 
 createApp(App)
     .use(router)

@@ -271,7 +271,7 @@ export default {
               componentSearchState.lastVisitedId = data.id
               console.log(data);
               console.log(data.id);
-              router.push({ name: 'components', query: { id: data.id , viewMode: 'change' } })
+              router.push({ name: 'component', query: { id: data.id , viewMode: 'change' } })
             })
           })
           .catch(error => {
