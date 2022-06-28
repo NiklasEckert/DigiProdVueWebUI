@@ -100,8 +100,9 @@
 
         <button
             class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
-            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.component.parentId }"
+            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': (this.$route.query.id && this.component.parentId), 'text-gray-400 bg-amber-200/25': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.component.parentId }"
             @click="disconnectFromParent"
+            :disabled="!this.component.parentId"
             v-show="this.$route.query.id"
         >
           <font-awesome-icon icon="fa-solid fa-scissors" class="mr-1"/>
@@ -110,8 +111,11 @@
 
         <button
             class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
-            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id, 'text-gray-400 bg-amber-200/25': this.component.status.statusName === 'Killed'}"
-            @click="markAsKilled"
+            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id && this.component.status.statusName !== 'Killed',
+             'text-gray-400 bg-amber-200/25': !this.$route.query.id,
+              'text-gray-400 bg-amber-200/25': this.component.status.statusName === 'Killed'}"
+            :disabled="this.component.status.statusName === 'Killed'"
+            @click="isKillDialogVisible=true"
             v-show="this.$route.query.id"
         >
           <font-awesome-icon icon="fa-solid fa-skull" class="mr-1"/>
@@ -133,6 +137,21 @@
               class="bg-red-600 hover:bg-red-700 text-white hover:shadow-md font-bold py-2 px-3 rounded-md ml-2">
         <font-awesome-icon icon="fa-solid fa-trash" class="mr-1"/>
         Delete
+      </button>
+    </template>
+  </ModalDialog>
+
+  <ModalDialog
+      v-show="isKillDialogVisible"
+      title="Mark component as killed"
+      hint="Do you want to mark this component as killed?"
+      @cancel="isKillDialogVisible = false"
+  >
+    <template v-slot:buttonRow>
+      <button @click="markAsKilled"
+              class="bg-red-600 hover:bg-red-700 text-white hover:shadow-md font-bold py-2 px-3 rounded-md ml-2">
+        <font-awesome-icon icon="fa-solid fa-trash" class="mr-1"/>
+        Kill
       </button>
     </template>
   </ModalDialog>
@@ -175,6 +194,7 @@ export default {
       storable: false,
       isDeleteDialogVisible: false,
       isErrorDialogVisible: false,
+      isKillDialogVisible: false,
       changeWatcher: null
     }
   },
@@ -225,15 +245,11 @@ export default {
   methods: {
     deleteComponent() {
       this.isDeleteDialogVisible = false
-
       ComponentFetcher.deleteComponent(this.component.id)
-          .then(response => {
-            response.json().then(data => {
-              this.component = data
+          .then(() => {
               this.storable = false
               componentSearchState.lastVisitedId = null
-              router.push({ name: 'noComponentSelected'})
-            })
+              router.push({name: 'noComponentSelected'})
           })
           .catch(error => {
             this.error = error
@@ -257,9 +273,11 @@ export default {
           })
     },
     changeComponentType(event) {
-      this.component.componentType = this.compTypeList.find(comp => {
+      let componentType = this.compTypeList.find(comp => {
         return comp.name === event.target.value
       })
+      this.component.componentType = componentType
+      this.component.articleNumber = componentType.articleNumber
     },
     saveComponent() {
       ComponentFetcher.saveComponent(this.component)
@@ -271,7 +289,7 @@ export default {
               componentSearchState.lastVisitedId = data.id
               console.log(data);
               console.log(data.id);
-              router.push({ name: 'component', query: { id: data.id , viewMode: 'change' } })
+              router.push({name: 'component', query: {id: data.id, viewMode: 'change'}})
             })
           })
           .catch(error => {
@@ -281,23 +299,22 @@ export default {
           })
     },
     markAsKilled() {
-      let ok = confirm('Do you want to mark this component as killed?');
-      if (ok) {
-        ComponentFetcher.markAsKilled(this.component.id)
-            .then(response => {
-              response.json().then(data => {
-                this.component.status = data
-                this.storable = false
-                this.$emit('saved')
-                this.component.status = data.status
-              })
+      this.isKillDialogVisible = false
+      ComponentFetcher.markAsKilled(this.component.id)
+          .then(response => {
+            response.json().then(data => {
+              this.component.status = data
+              this.storable = false
+              this.$emit('saved')
+              this.component.status = data.status
             })
-            .catch(error => {
-              this.error = error
-              this.loading = false
-              this.isErrorDialogVisible = true
-            })
-      }
+          })
+          .catch(error => {
+            this.error = error
+            this.loading = false
+            this.isErrorDialogVisible = true
+          })
+
     },
     fetchData() {
       this.error = null
