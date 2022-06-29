@@ -32,7 +32,9 @@
           {{ event.workstation.workstationName }}
         </td>
         <td class="px-1 py-4">
-          {{ event.results.join(" | ") }}
+          {{ event.results.map((result) => {
+          return result.resultValue + " " + result.resultType.resultTypeUnit
+        }).join(" | ") }}
         </td>
       </tr>
     </tbody>
