@@ -247,9 +247,10 @@ export default {
       this.isDeleteDialogVisible = false
       ComponentFetcher.deleteComponent(this.component.id)
           .then(() => {
-              this.storable = false
-              componentSearchState.lastVisitedId = null
-              router.push({name: 'noComponentSelected'})
+            this.storable = false
+            componentSearchState.lastVisitedId = null
+            router.push({name: 'noComponentSelected'})
+            this.$emit('deleted')
           })
           .catch(error => {
             this.error = error
