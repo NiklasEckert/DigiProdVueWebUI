@@ -28,3 +28,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 #### macOS/Unix:
 run command: ```sh startUnix.sh```
+
+#### Windows:
+run command: ```startWindows.bat```
