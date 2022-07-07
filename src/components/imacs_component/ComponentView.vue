@@ -15,6 +15,16 @@
         </select>
       </div>
 
+      <div class="mt-4 pr-4">
+        <label for="if2" class="block text-xs text-black/50">QR-Code</label>
+        <input
+            id="if2"
+            v-model="this.component.qrCode"
+            placeholder="QR-Code"
+            class="text-xl outline-0 border-b w-full"
+        >
+      </div>
+
       <div class="mt-6 pr-4">
         <label for="if1" class="block text-xs text-black/50">Article Number</label>
         <input id="if1"
@@ -180,6 +190,7 @@ export default {
       component: {
         id: "",
         name: "",
+        qrCode:"",
         articleNumber: "",
         orderNumber: "",
         birthDate: 0,
@@ -214,6 +225,7 @@ export default {
             this.component = {
               id: "",
               name: "",
+              qrCode: "",
               articleNumber: "",
               orderNumber: "",
               birthDate: Date.now(),
