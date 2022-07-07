@@ -7,10 +7,21 @@
       </tr>
     </thead>
     <tbody>
-    <router-link v-for="type in types" :key="type.id" :to="{ name: 'compType', query: { id: type.id , viewMode: 'change' } }" custom v-slot="{ href, navigate }">
-      <tr :href="href" @click="navigate" class="hover:bg-gray-100 border-b transition duration-300 hover:cursor-pointer">
-        <td class="px-1 py-4">{{ type.articleNumber }}</td>
-        <td class="px-1 py-4">{{ type.name }}</td>
+    <router-link
+        v-for="type in types"
+        :key="type.id"
+        :to="{ name: 'compType', query: { id: type.id , viewMode: 'change' } }"
+        custom
+        v-slot="{ href, navigate }"
+    >
+      <tr
+          :href="href"
+          @click="navigate"
+          class="hover:bg-gray-100 transition duration-100 hover:cursor-pointer"
+          :class="{ 'bg-amber-200': this.$route.query.id === type.id + '' }"
+      >
+        <td class="px-3 py-3 first:rounded-l last:rounded-r">{{ type.articleNumber }}</td>
+        <td class="px-3 py-3 first:rounded-l last:rounded-r">{{ type.name }}</td>
       </tr>
     </router-link>
     </tbody>

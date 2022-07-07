@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table class="table-fixed w-full">
     <tbody>
     <router-link v-for="comp in componentList" :key="comp.id"
                  :to="{ name: 'component', query: { id: comp.id , viewMode: 'change' } }" custom
