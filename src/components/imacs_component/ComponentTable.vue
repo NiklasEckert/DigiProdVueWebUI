@@ -1,5 +1,5 @@
 <template>
-  <SearchListTable :headlines='["Article Number", "Order Number"]'>
+  <SearchListTable :headlines='["Type", "Art. / Order"]'>
     <router-link
         v-for="comp in componentList"
         :key="comp.id"
