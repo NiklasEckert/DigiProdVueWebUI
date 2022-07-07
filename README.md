@@ -22,3 +22,12 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+## Start in docker container
+
+#### macOS/Unix:
+run command: ```sh startUnix.sh```
+
+#### Windows:
+run command: ```startWindows.bat```
