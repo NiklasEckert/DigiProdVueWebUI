@@ -12,8 +12,8 @@
           :navigate="navigate"
           :is-active="this.$route.query.id === type.id + ''"
       >
-        <SearchListTableItem :value="type.articleNumber" />
-        <SearchListTableItem :value="type.name" />
+        <SearchListTableItem>{{ type.articleNumber }}</SearchListTableItem>
+        <SearchListTableItem>{{ type.name }}</SearchListTableItem>
       </SearchListTableRow>
     </router-link>
   </SearchListTable>

@@ -1,11 +1,12 @@
 <template>
-  <td class="p-3 first:rounded-l last:rounded-r">{{ value }}</td>
+  <td class="p-3 first:rounded-l last:rounded-r">
+    <slot></slot>
+  </td>
 </template>
 
 <script>
 export default {
-  name: "SearchListTableItem",
-  props: ['value']
+  name: "SearchListTableItem"
 }
 </script>
 

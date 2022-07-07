@@ -1,34 +1,33 @@
 <template>
-  <table class="table-fixed w-full">
-    <tbody>
-    <router-link v-for="comp in componentList" :key="comp.id"
-                 :to="{ name: 'component', query: { id: comp.id , viewMode: 'change' } }" custom
-                 v-slot="{ href, navigate }">
-      <tr :href="href" @click="navigate"
-          class="hover:bg-gray-100 border-b transition duration-300 hover:cursor-pointer">
-        <td class="py-2">
-          <div class="px 4 px-1" style="font-weight: bold">
-            {{ comp.name }}
-          </div>
-          <br>
-
-        </td>
-        <td class="py-2 px-5">
-          <div>
-            {{ comp.articleNumber }}<br>
-            {{ comp.orderNumber }}
-          </div>
-        </td>
-      </tr>
+  <SearchListTable :headlines='["Article Number", "Order Number"]'>
+    <router-link
+        v-for="comp in componentList"
+        :key="comp.id"
+        :to="{ name: 'component', query: { id: comp.id , viewMode: 'change' } }"
+        custom
+        v-slot="{ href, navigate }"
+    >
+      <SearchListTableRow
+          :href="href"
+          :navigate="navigate"
+          :is-active="this.$route.query.id === comp.id + ''"
+      >
+        <SearchListTableItem>{{ comp.name }}</SearchListTableItem>
+        <SearchListTableItem>{{ comp.articleNumber }}<br>{{ comp.orderNumber }}</SearchListTableItem>
+      </SearchListTableRow>
     </router-link>
-    </tbody>
-  </table>
+  </SearchListTable>
 </template>
 
 <script>
 
+import SearchListTableRow from "@/components/util/selection_sidebar/search_list_table/SearchListTableRow";
+import SearchListTableItem from "@/components/util/selection_sidebar/search_list_table/SearchListTableItem";
+import SearchListTable from "@/components/util/selection_sidebar/search_list_table/SearchListTable";
+
 export default {
   name: "ComponentsTable",
+  components: {SearchListTableRow, SearchListTableItem, SearchListTable},
   props: ['componentList']
 }
 </script>
