@@ -8,7 +8,8 @@ export const ComponentFetcher = {
     getEventsForComponent,
     markAsKilled,
     deleteComponent,
-    disconnectFromParent
+    disconnectFromParent,
+    updateComponent
 }
 
 function disconnectFromParent(id) {
@@ -41,4 +42,8 @@ function markAsKilled(id) {
 
 function deleteComponent(id) {
     return fetchWrapper.delete("component/" + id)
+}
+
+function updateComponent(id, updates) {
+    return fetchWrapper.patch("component/" + id, updates);
 }
