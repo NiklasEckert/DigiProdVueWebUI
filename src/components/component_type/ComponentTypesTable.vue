@@ -1,12 +1,5 @@
 <template>
-  <table class="table-fixed w-full">
-    <thead>
-      <tr>
-        <th scope="col" class="text-left px-1 py-4">Article Number</th>
-        <th scope="col" class="text-left px-1 py-4">Name</th>
-      </tr>
-    </thead>
-    <tbody>
+  <SearchListTable :headlines='["Article Number", "Order Number"]'>
     <router-link
         v-for="type in types"
         :key="type.id"
@@ -14,24 +7,26 @@
         custom
         v-slot="{ href, navigate }"
     >
-      <tr
+      <SearchListTableRow
           :href="href"
-          @click="navigate"
-          class="hover:bg-gray-100 transition duration-100 hover:cursor-pointer"
-          :class="{ 'bg-amber-200': this.$route.query.id === type.id + '' }"
+          :navigate="navigate"
+          :is-active="this.$route.query.id === type.id + ''"
       >
-        <td class="px-3 py-3 first:rounded-l last:rounded-r">{{ type.articleNumber }}</td>
-        <td class="px-3 py-3 first:rounded-l last:rounded-r">{{ type.name }}</td>
-      </tr>
+        <SearchListTableItem>{{ type.articleNumber }}</SearchListTableItem>
+        <SearchListTableItem>{{ type.name }}</SearchListTableItem>
+      </SearchListTableRow>
     </router-link>
-    </tbody>
-  </table>
+  </SearchListTable>
 </template>
 
 <script>
 
+import SearchListTable from "@/components/util/selection_sidebar/search_list_table/SearchListTable";
+import SearchListTableItem from "@/components/util/selection_sidebar/search_list_table/SearchListTableItem";
+import SearchListTableRow from "@/components/util/selection_sidebar/search_list_table/SearchListTableRow";
 export default {
   name: "ComponentTypesTable",
+  components: {SearchListTableRow, SearchListTableItem, SearchListTable},
   props: ['types']
 }
 </script>
