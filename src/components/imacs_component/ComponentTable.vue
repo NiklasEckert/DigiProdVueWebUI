@@ -1,5 +1,5 @@
 <template>
-  <SearchListTable :headlines='["Type", "Art. / Order"]'>
+  <SearchListTable :headlines='["Type / QR", "Art. / Order"]'>
     <router-link
         v-for="comp in componentList"
         :key="comp.id"
@@ -12,8 +12,8 @@
           :navigate="navigate"
           :is-active="this.$route.query.id === comp.id + ''"
       >
-        <SearchListTableItem>{{ comp.name }}</SearchListTableItem>
-        <SearchListTableItem>{{ comp.articleNumber }}<br>{{ comp.orderNumber }}</SearchListTableItem>
+        <SearchListTableItem>{{ comp.componentType.name }}<br>{{ comp.qrCode }}</SearchListTableItem>
+        <SearchListTableItem>{{ comp.componentType.articleNumber }}<br>{{ comp.orderNumber }}</SearchListTableItem>
       </SearchListTableRow>
     </router-link>
   </SearchListTable>
