@@ -1,19 +1,13 @@
 <template>
-  <DetailScreenContainer>
+  <DetailScreenContainer v-if="this.loadingDone">
     <div class="h-full p-6">
-      <input
-          v-model="this.component.name"
-          placeholder="Type Name"
-          class="text-3xl font-bold outline-0 w-full mt-5"
-      >
       <div>
-        <!-- TODO: Feature 146 -->
-<!--        <select class="form-control" @change="changeComponentType($event)">
-          <option selected disabled>{{ this.component.componentType.name ?? "Choose type of component" }}</option>
-          <option v-for="componentType in compTypeList" :value="componentType.name" :key="componentType.id">
-            {{ componentType.name }}
+        <select class="form-control text-3xl font-bold outline-0 mt-5" @change="changeComponentType($event)" :disabled="viewMode === 'change'">
+          <option selected disabled>{{ this.componentType.name ?? "Choose type of component" }}</option>
+          <option v-for="componentTypeItem in compTypeList" :value="componentTypeItem.name" :key="componentTypeItem.id">
+            {{ componentTypeItem.name }}
           </option>
-        </select>-->
+        </select>
       </div>
 
       <div class="mt-4 pr-4">
@@ -29,9 +23,10 @@
       <div class="mt-6 pr-4">
         <label for="if1" class="block text-xs text-black/50">Article Number</label>
         <input id="if1"
-               v-model="this.component.articleNumber"
+               v-model="this.componentType.articleNumber"
                placeholder="Article Number"
-               class="text-xl outline-0 border-b w-full"
+               class="text-xl outline-0 border-b w-full bg-white"
+               disabled
         >
       </div>
 
@@ -191,14 +186,17 @@ import {componentSearchState} from "@/components/imacs_component/Component";
 import DetailScreenContainer from "@/components/util/detail_screen_container/DetailScreenContainer";
 import ModalDialog from "@/components/util/dialogs/ModalDialog";
 import router from "@/router";
+import ErrorDialog from "@/components/util/dialogs/ErrorDialog";
 
 export default {
   name: "ComponentView",
-  components: {DetailScreenContainer, ComponentEventTable, ModalDialog},
+  components: {DetailScreenContainer, ComponentEventTable, ModalDialog, ErrorDialog},
   data() {
     return {
       compTypeList: [],
       loading: false,
+      loadingComponentTypes: false,
+      loadingComponentType: false,
       formattedDate: moment().format("YYYY MMM DD HH:mm"),
       component: {
         id: "",
@@ -209,17 +207,24 @@ export default {
         birthDate: 0,
         location: "",
         filePath: "",
-        status: {
-          statusName: "Created"
-        },
-        componentType: {}
+        statusName: null,
+        componentTypeId: null
       },
+      componentType: null,
       error: null,
       storable: false,
       isDeleteDialogVisible: false,
       isErrorDialogVisible: false,
       isKillDialogVisible: false,
       changeWatcher: null
+    }
+  },
+  computed: {
+    viewMode() {
+      return this.$route.query.viewMode
+    },
+    loadingDone() {
+      return !this.loading && !this.loadingComponentTypes && !this.loadingComponentType
     }
   },
   created() {
@@ -366,6 +371,7 @@ export default {
 
               this.component = data
               this.formattedDate = moment(data.birthdate).format("YYYY MMM DD HH:mm")
+              this.fetchComponentType(this.component.componentTypeId)
               this.loading = false
               componentSearchState.lastVisitedId = data.id
 
@@ -390,19 +396,19 @@ export default {
           })
     },
     fetchComponentTypes() {
-      this.error = this.post = null
-      this.loading = true
+      this.error = null
+      this.loadingComponentTypes = true
 
       ComponentTypeFetcher.getAllComponentTypes()
           .then(response => {
             response.json().then(data => {
               this.compTypeList = data
-              this.loading = false
+              this.loadingComponentTypes = false
             })
           })
           .catch(error => {
             this.error = error
-            this.loading = false
+            this.loadingComponentTypes = false
             this.isErrorDialogVisible = true
           })
     },
@@ -419,6 +425,23 @@ export default {
           .catch(error => {
             this.error = error
             this.loading = false
+            this.isErrorDialogVisible = true
+          })
+    },
+    fetchComponentType(id) {
+      this.error = null
+      this.loadingComponentType = true
+
+      ComponentTypeFetcher.getComponentType(id)
+          .then(response => {
+            response.json().then(data => {
+              this.componentType = data
+              this.loadingComponentType = false
+            })
+          })
+          .catch(error => {
+            this.error = error
+            this.loadingComponentType = false
             this.isErrorDialogVisible = true
           })
     }
