@@ -1,24 +1,19 @@
 <template>
-  <DetailScreenContainer>
+  <DetailScreenContainer v-if="this.loadingDone">
     <div class="h-full p-6">
-      <input
-          v-model="this.component.name"
-          placeholder="Type Name"
-          class="text-3xl font-bold outline-0 w-full mt-5"
-      >
       <div>
-        <select class="form-control" @change="changeComponentType($event)">
-          <option selected disabled>{{ this.component.componentType.name ?? "Choose type of component" }}</option>
-          <option v-for="componentType in compTypeList" :value="componentType.name" :key="componentType.id">
-            {{ componentType.name }}
+        <select class="form-control text-3xl font-bold outline-0 mt-5" @change="changeComponentType($event)" :disabled="viewMode === 'change'">
+          <option selected disabled>{{ this.componentType.name ?? "Choose type of component" }}</option>
+          <option v-for="componentTypeItem in compTypeList" :value="componentTypeItem.name" :key="componentTypeItem.id">
+            {{ componentTypeItem.name }}
           </option>
         </select>
       </div>
 
       <div class="mt-4 pr-4">
-        <label for="if2" class="block text-xs text-black/50">QR-Code</label>
+        <label for="if5" class="block text-xs text-black/50">QR-Code</label>
         <input
-            id="if2"
+            id="if5"
             v-model="this.component.qrCode"
             placeholder="QR-Code"
             class="text-xl outline-0 border-b w-full"
@@ -28,9 +23,10 @@
       <div class="mt-6 pr-4">
         <label for="if1" class="block text-xs text-black/50">Article Number</label>
         <input id="if1"
-               v-model="this.component.articleNumber"
+               v-model="this.componentType.articleNumber"
                placeholder="Article Number"
-               class="text-xl outline-0 border-b w-full"
+               class="text-xl outline-0 border-b w-full bg-white"
+               disabled
         >
       </div>
 
@@ -70,7 +66,7 @@
 
       <div class="mt-4 pr-4">
         <label class="block text-xs text-black/50">Status</label>
-        <label class="text-xl ">{{ this.component.status.statusName }}</label>
+        <label class="text-xl ">{{ this.component.statusName }}</label>
       </div>
 
 
@@ -79,10 +75,22 @@
             class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg"
             :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.storable, 'text-gray-400 bg-amber-200/25': !this.storable}"
             :disabled="!this.storable"
+            v-show="this.$route.query.viewMode==='creation'"
             @click="saveComponent"
         >
+          <font-awesome-icon icon="fa-solid fa-plus" class="mr-1"/>
+          Create
+        </button>
+
+        <button
+            class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg"
+            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.storable, 'text-gray-400 bg-amber-200/25': !this.storable}"
+            :disabled="!this.storable"
+            v-show="this.$route.query.viewMode==='change'"
+            @click="updateComponent"
+        >
           <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-1"/>
-          Save (WIP)
+          Save
         </button>
 
         <button
@@ -121,10 +129,10 @@
 
         <button
             class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
-            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id && this.component.status.statusName !== 'Killed',
+            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id && this.component.statusName !== 'Killed',
              'text-gray-400 bg-amber-200/25': !this.$route.query.id,
-              'text-gray-400 bg-amber-200/25': this.component.status.statusName === 'Killed'}"
-            :disabled="this.component.status.statusName === 'Killed'"
+              'text-gray-400 bg-amber-200/25': this.component.statusName === 'Killed'}"
+            :disabled="this.component.statusName === 'Killed'"
             @click="isKillDialogVisible=true"
             v-show="this.$route.query.id"
         >
@@ -178,14 +186,17 @@ import {componentSearchState} from "@/components/imacs_component/Component";
 import DetailScreenContainer from "@/components/util/detail_screen_container/DetailScreenContainer";
 import ModalDialog from "@/components/util/dialogs/ModalDialog";
 import router from "@/router";
+import ErrorDialog from "@/components/util/dialogs/ErrorDialog";
 
 export default {
   name: "ComponentView",
-  components: {DetailScreenContainer, ComponentEventTable, ModalDialog},
+  components: {DetailScreenContainer, ComponentEventTable, ModalDialog, ErrorDialog},
   data() {
     return {
       compTypeList: [],
       loading: false,
+      loadingComponentTypes: false,
+      loadingComponentType: false,
       formattedDate: moment().format("YYYY MMM DD HH:mm"),
       component: {
         id: "",
@@ -196,17 +207,24 @@ export default {
         birthDate: 0,
         location: "",
         filePath: "",
-        status: {
-          statusName: "Created"
-        },
-        componentType: {}
+        statusName: null,
+        componentTypeId: null
       },
+      componentType: null,
       error: null,
       storable: false,
       isDeleteDialogVisible: false,
       isErrorDialogVisible: false,
       isKillDialogVisible: false,
       changeWatcher: null
+    }
+  },
+  computed: {
+    viewMode() {
+      return this.$route.query.viewMode
+    },
+    loadingDone() {
+      return !this.loading && !this.loadingComponentTypes && !this.loadingComponentType
     }
   },
   created() {
@@ -293,15 +311,24 @@ export default {
       this.component.articleNumber = componentType.articleNumber
     },
     saveComponent() {
-      ComponentFetcher.saveComponent(this.component)
+      let newComponent = {
+        id: this.component.id,
+        filepath: this.component.filePath,
+        qrCode: this.component.qrCode,
+        orderNumber: this.component.orderNumber,
+        location: this.component.location,
+        birthdate: this.component.birthDate,
+        componentTypeId: this.component.componentType.id,
+        statusName: this.component.status.statusName
+      }
+
+      ComponentFetcher.saveComponent(newComponent)
           .then(response => {
             response.json().then(data => {
               this.component = data
               this.storable = false
               this.$emit('saved')
               componentSearchState.lastVisitedId = data.id
-              console.log(data);
-              console.log(data.id);
               router.push({name: 'component', query: {id: data.id, viewMode: 'change'}})
             })
           })
@@ -344,6 +371,7 @@ export default {
 
               this.component = data
               this.formattedDate = moment(data.birthdate).format("YYYY MMM DD HH:mm")
+              this.fetchComponentType(this.component.componentTypeId)
               this.loading = false
               componentSearchState.lastVisitedId = data.id
 
@@ -368,19 +396,52 @@ export default {
           })
     },
     fetchComponentTypes() {
-      this.error = this.post = null
-      this.loading = true
+      this.error = null
+      this.loadingComponentTypes = true
 
       ComponentTypeFetcher.getAllComponentTypes()
           .then(response => {
             response.json().then(data => {
               this.compTypeList = data
-              this.loading = false
+              this.loadingComponentTypes = false
+            })
+          })
+          .catch(error => {
+            this.error = error
+            this.loadingComponentTypes = false
+            this.isErrorDialogVisible = true
+          })
+    },
+    updateComponent() {
+      ComponentFetcher.updateComponent(this.component.id, this.component)
+          .then(response => {
+            response.json().then(data => {
+              this.component = data
+              this.storable = false
+              this.$emit('saved')
+              componentSearchState.lastVisitedId = data.id
             })
           })
           .catch(error => {
             this.error = error
             this.loading = false
+            this.isErrorDialogVisible = true
+          })
+    },
+    fetchComponentType(id) {
+      this.error = null
+      this.loadingComponentType = true
+
+      ComponentTypeFetcher.getComponentType(id)
+          .then(response => {
+            response.json().then(data => {
+              this.componentType = data
+              this.loadingComponentType = false
+            })
+          })
+          .catch(error => {
+            this.error = error
+            this.loadingComponentType = false
             this.isErrorDialogVisible = true
           })
     }
