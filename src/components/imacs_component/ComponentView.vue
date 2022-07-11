@@ -208,7 +208,7 @@ export default {
       loadingComponentTypes: false,
       loadingComponentType: false,
       loadingComponentTree:false,
-      formattedDate: moment().format("YYYY MMM DD HH:mm"),
+      formattedDate: moment().format("DD MMM YYYY HH:mm"),
       component: {
         id: "",
         name: "",
@@ -383,7 +383,7 @@ export default {
               }
 
               this.component = data
-              this.formattedDate = moment(data.birthdate).format("YYYY MMM DD HH:mm")
+              this.formattedDate = moment(data.birthdate).format("DD MMM YYYY HH:mm")
               this.fetchComponentType(this.component.componentTypeId)
               this.fetchComponentTree(this.component.id)
               this.loading = false
