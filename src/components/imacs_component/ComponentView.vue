@@ -1,146 +1,155 @@
 <template>
   <DetailScreenContainer v-if="this.loadingDone">
-    <div class="h-full p-6">
+    <div class="flex flex-row">
+      <ComponentDetailTree v-if="viewMode==='change'" :parent-component="this.componentTreeItem">
+      </ComponentDetailTree>
+
       <div>
-        <select class="form-control text-3xl font-bold outline-0 mt-5" @change="changeComponentType($event)" :disabled="viewMode === 'change'">
-          <option selected disabled>{{ this.componentType.name ?? "Choose type of component" }}</option>
-          <option v-for="componentTypeItem in compTypeList" :value="componentTypeItem.name" :key="componentTypeItem.id">
-            {{ componentTypeItem.name }}
-          </option>
-        </select>
-      </div>
+        <div class="h-full p-6">
+          <div>
+            <select class="form-control text-3xl font-bold outline-0 mt-5" @change="changeComponentType($event)"
+                    :disabled="viewMode === 'change'">
+              <option selected disabled>{{ this.componentType.name ?? "Choose type of component" }}</option>
+              <option v-for="componentTypeItem in compTypeList" :value="componentTypeItem.name"
+                      :key="componentTypeItem.id">
+                {{ componentTypeItem.name }}
+              </option>
+            </select>
+          </div>
 
-      <div class="mt-4 pr-4">
-        <label for="if5" class="block text-xs text-black/50">QR-Code</label>
-        <input
-            id="if5"
-            v-model="this.component.qrCode"
-            placeholder="QR-Code"
-            class="text-xl outline-0 border-b w-full"
-        >
-      </div>
+          <div class="mt-4 pr-4">
+            <label for="if5" class="block text-xs text-black/50">QR-Code</label>
+            <input
+                id="if5"
+                v-model="this.component.qrCode"
+                placeholder="QR-Code"
+                class="text-xl outline-0 border-b w-full"
+            >
+          </div>
 
-      <div class="mt-6 pr-4">
-        <label for="if1" class="block text-xs text-black/50">Article Number</label>
-        <input id="if1"
-               v-model="this.componentType.articleNumber"
-               placeholder="Article Number"
-               class="text-xl outline-0 border-b w-full bg-white"
-               disabled
-        >
-      </div>
+          <div class="mt-6 pr-4">
+            <label for="if1" class="block text-xs text-black/50">Article Number</label>
+            <input id="if1"
+                   v-model="this.componentType.articleNumber"
+                   placeholder="Article Number"
+                   class="text-xl outline-0 border-b w-full bg-white"
+                   disabled
+            >
+          </div>
 
-      <div class="mt-4 pr-4">
-        <label for="if2" class="block text-xs text-black/50">Order number</label>
-        <input
-            id="if2"
-            v-model="this.component.orderNumber"
-            placeholder="Order number"
-            class="text-xl outline-0 border-b w-full"
-        >
-      </div>
+          <div class="mt-4 pr-4">
+            <label for="if2" class="block text-xs text-black/50">Order number</label>
+            <input
+                id="if2"
+                v-model="this.component.orderNumber"
+                placeholder="Order number"
+                class="text-xl outline-0 border-b w-full"
+            >
+          </div>
 
-      <div class="mt-4 pr-4">
-        <label class="block text-xs text-black/50">Birthdate</label>
-        <label class="text-xl ">{{ this.formattedDate }}</label>
-      </div>
+          <div class="mt-4 pr-4">
+            <label class="block text-xs text-black/50">Birthdate</label>
+            <label class="text-xl ">{{ this.formattedDate }}</label>
+          </div>
 
-      <div class="mt-4 pr-4">
-        <label for="if3" class="block text-xs text-black/50">Filepath</label>
-        <input
-            id="if3"
-            v-model="this.component.filePath"
-            placeholder="Filepath"
-            class="text-xl outline-0 border-b w-full"
-        >
-      </div>
-      <div class="mt-4 pr-4">
-        <label for="if4" class="block text-xs text-black/50">Location</label>
-        <input
-            id="if4"
-            v-model="this.component.location"
-            placeholder="Location"
-            class="text-xl outline-0 border-b w-full"
-        >
-      </div>
+          <div class="mt-4 pr-4">
+            <label for="if3" class="block text-xs text-black/50">Filepath</label>
+            <input
+                id="if3"
+                v-model="this.component.filePath"
+                placeholder="Filepath"
+                class="text-xl outline-0 border-b w-full"
+            >
+          </div>
+          <div class="mt-4 pr-4">
+            <label for="if4" class="block text-xs text-black/50">Location</label>
+            <input
+                id="if4"
+                v-model="this.component.location"
+                placeholder="Location"
+                class="text-xl outline-0 border-b w-full"
+            >
+          </div>
 
-      <div class="mt-4 pr-4">
-        <label class="block text-xs text-black/50">Status</label>
-        <label class="text-xl ">{{ this.component.statusName }}</label>
-      </div>
+          <div class="mt-4 pr-4">
+            <label class="block text-xs text-black/50">Status</label>
+            <label class="text-xl ">{{ this.component.statusName }}</label>
+          </div>
 
 
-      <div class="mt-12 flex flex-row">
-        <button
-            class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg"
-            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.storable, 'text-gray-400 bg-amber-200/25': !this.storable}"
-            :disabled="!this.storable"
-            v-show="this.$route.query.viewMode==='creation'"
-            @click="saveComponent"
-        >
-          <font-awesome-icon icon="fa-solid fa-plus" class="mr-1"/>
-          Create
-        </button>
+          <div class="mt-12 flex flex-row">
+            <button
+                class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg"
+                :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.storable, 'text-gray-400 bg-amber-200/25': !this.storable}"
+                :disabled="!this.storable"
+                v-show="this.$route.query.viewMode==='creation'"
+                @click="saveComponent"
+            >
+              <font-awesome-icon icon="fa-solid fa-plus" class="mr-1"/>
+              Create
+            </button>
 
-        <button
-            class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg"
-            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.storable, 'text-gray-400 bg-amber-200/25': !this.storable}"
-            :disabled="!this.storable"
-            v-show="this.$route.query.viewMode==='change'"
-            @click="updateComponent"
-        >
-          <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-1"/>
-          Save
-        </button>
+            <button
+                class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg"
+                :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': this.storable, 'text-gray-400 bg-amber-200/25': !this.storable}"
+                :disabled="!this.storable"
+                v-show="this.$route.query.viewMode==='change'"
+                @click="updateComponent"
+            >
+              <font-awesome-icon icon="fa-solid fa-floppy-disk" class="mr-1"/>
+              Save
+            </button>
 
-        <button
-            class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
-            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
-            v-show="this.$route.query.id"
-            @click="isDeleteDialogVisible = true"
-        >
-          <font-awesome-icon icon="fa-solid fa-trash" class="mr-1"/>
-          Delete from database
-        </button>
+            <button
+                class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
+                :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.$route.query.id}"
+                v-show="this.$route.query.id"
+                @click="isDeleteDialogVisible = true"
+            >
+              <font-awesome-icon icon="fa-solid fa-trash" class="mr-1"/>
+              Delete from database
+            </button>
 
-      </div>
+          </div>
 
-      <div class="mt-4 flex flex-row">
-        <button
-            class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg "
-            :class="{ 'text-gray-400 bg-amber-200/25': true}"
-            :disabled="true"
-            v-show="this.$route.query.id"
-        >
-          <font-awesome-icon icon="fa-solid fa-puzzle-piece" class="mr-1"/>
-          Add subcomponent (WIP)
-        </button>
+          <div class="mt-4 flex flex-row">
+            <button
+                class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg "
+                :class="{ 'text-gray-400 bg-amber-200/25': true}"
+                :disabled="true"
+                v-show="this.$route.query.id"
+            >
+              <font-awesome-icon icon="fa-solid fa-puzzle-piece" class="mr-1"/>
+              Add subcomponent (WIP)
+            </button>
 
-        <button
-            class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
-            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': (this.$route.query.id && this.component.parentId), 'text-gray-400 bg-amber-200/25': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.component.parentId }"
-            @click="disconnectFromParent"
-            :disabled="!this.component.parentId"
-            v-show="this.$route.query.id"
-        >
-          <font-awesome-icon icon="fa-solid fa-scissors" class="mr-1"/>
-          Disconnect from parent
-        </button>
+            <button
+                class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
+                :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': (this.$route.query.id && this.component.parentId), 'text-gray-400 bg-amber-200/25': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.component.parentId }"
+                @click="disconnectFromParent"
+                :disabled="!this.component.parentId"
+                v-show="this.$route.query.id"
+            >
+              <font-awesome-icon icon="fa-solid fa-scissors" class="mr-1"/>
+              Disconnect from parent
+            </button>
 
-        <button
-            class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
-            :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id && this.component.statusName !== 'Killed',
+            <button
+                class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
+                :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-red-600 hover:cursor-pointer': this.$route.query.id && this.component.statusName !== 'Killed',
              'text-gray-400 bg-amber-200/25': !this.$route.query.id,
               'text-gray-400 bg-amber-200/25': this.component.statusName === 'Killed'}"
-            :disabled="this.component.statusName === 'Killed'"
-            @click="isKillDialogVisible=true"
-            v-show="this.$route.query.id"
-        >
-          <font-awesome-icon icon="fa-solid fa-skull" class="mr-1"/>
-          Mark component as killed
-        </button>
+                :disabled="this.component.statusName === 'Killed'"
+                @click="isKillDialogVisible=true"
+                v-show="this.$route.query.id"
+            >
+              <font-awesome-icon icon="fa-solid fa-skull" class="mr-1"/>
+              Mark component as killed
+            </button>
+          </div>
+          <ComponentEventTable :component-id="component.id"/>
+        </div>
       </div>
-      <ComponentEventTable :component-id="component.id"/>
     </div>
   </DetailScreenContainer>
 
@@ -187,21 +196,23 @@ import DetailScreenContainer from "@/components/util/detail_screen_container/Det
 import ModalDialog from "@/components/util/dialogs/ModalDialog";
 import router from "@/router";
 import ErrorDialog from "@/components/util/dialogs/ErrorDialog";
+import ComponentDetailTree from "@/components/imacs_component/ComponentDetailTree/ComponentDetailTree";
 
 export default {
   name: "ComponentView",
-  components: {DetailScreenContainer, ComponentEventTable, ModalDialog, ErrorDialog},
+  components: {ComponentDetailTree, DetailScreenContainer, ComponentEventTable, ModalDialog, ErrorDialog},
   data() {
     return {
       compTypeList: [],
       loading: false,
       loadingComponentTypes: false,
       loadingComponentType: false,
+      loadingComponentTree:false,
       formattedDate: moment().format("YYYY MMM DD HH:mm"),
       component: {
         id: "",
         name: "",
-        qrCode:"",
+        qrCode: "",
         articleNumber: "",
         orderNumber: "",
         birthDate: 0,
@@ -216,7 +227,8 @@ export default {
       isDeleteDialogVisible: false,
       isErrorDialogVisible: false,
       isKillDialogVisible: false,
-      changeWatcher: null
+      changeWatcher: null,
+      componentTreeItem:null
     }
   },
   computed: {
@@ -224,7 +236,7 @@ export default {
       return this.$route.query.viewMode
     },
     loadingDone() {
-      return !this.loading && !this.loadingComponentTypes && !this.loadingComponentType
+      return !this.loading && !this.loadingComponentTypes && !this.loadingComponentType && !this.loadingComponentTree
     }
   },
   created() {
@@ -295,6 +307,7 @@ export default {
               this.component = data
               this.storable = false
               componentSearchState.lastVisitedId = data.id
+              this.fetchComponentTree(this.component.id)
             })
           })
           .catch(error => {
@@ -372,6 +385,7 @@ export default {
               this.component = data
               this.formattedDate = moment(data.birthdate).format("YYYY MMM DD HH:mm")
               this.fetchComponentType(this.component.componentTypeId)
+              this.fetchComponentTree(this.component.id)
               this.loading = false
               componentSearchState.lastVisitedId = data.id
 
@@ -444,6 +458,24 @@ export default {
             this.loadingComponentType = false
             this.isErrorDialogVisible = true
           })
+    },
+    fetchComponentTree(id){
+      this.error = null
+      this.loadingComponentTree = true
+
+      ComponentFetcher.fetchComponentTree(id)
+          .then(response => {
+            response.json().then(data => {
+              this.componentTreeItem= data
+              this.loadingComponentTree = false
+            })
+          })
+          .catch(error => {
+            this.error = error
+            this.loadingComponentTree = false
+            this.isErrorDialogVisible = true
+          })
+
     }
   }
 }

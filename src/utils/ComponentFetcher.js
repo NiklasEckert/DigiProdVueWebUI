@@ -9,7 +9,8 @@ export const ComponentFetcher = {
     markAsKilled,
     deleteComponent,
     disconnectFromParent,
-    updateComponent
+    updateComponent,
+    fetchComponentTree
 }
 
 function disconnectFromParent(id) {
@@ -46,4 +47,7 @@ function deleteComponent(id) {
 
 function updateComponent(id, updates) {
     return fetchWrapper.patch("component/" + id, updates);
+}
+function fetchComponentTree(id){
+    return fetchWrapper.get("component/"+id+"/tree");
 }
