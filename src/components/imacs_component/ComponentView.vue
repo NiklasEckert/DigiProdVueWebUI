@@ -317,11 +317,9 @@ export default {
           })
     },
     changeComponentType(event) {
-      let componentType = this.compTypeList.find(comp => {
+      this.componentType = this.compTypeList.find(comp => {
         return comp.name === event.target.value
       })
-      this.component.componentType = componentType
-      this.component.articleNumber = componentType.articleNumber
     },
     saveComponent() {
       let newComponent = {
@@ -331,7 +329,7 @@ export default {
         orderNumber: this.component.orderNumber,
         location: this.component.location,
         birthdate: this.component.birthDate,
-        componentTypeId: this.component.componentType.id,
+        componentTypeId: this.componentType.id,
         statusName: this.component.status.statusName
       }
 
