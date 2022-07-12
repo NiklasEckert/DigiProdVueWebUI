@@ -3,7 +3,7 @@
       class="flex-shrink-0 box-border bg-amber-50 custom-transition relative"
       :class="{ 'w-96': !isCollapsed, 'w-0': isCollapsed }"
   >
-    <div class="flex flex-col h-screen whitespace-nowrap">
+    <div class="flex flex-col h-screen whitespace-nowrap overflow-hidden">
       <div class="p-6">
         <SelectionSidebarHeadline :headline="this.headline" />
         <div class="flex flex-row box-border mt-7">
