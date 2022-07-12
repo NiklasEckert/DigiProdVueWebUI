@@ -359,6 +359,7 @@ export default {
               this.component.status = data
               this.storable = false
               this.$emit('saved')
+              this.fetchData()
               this.component.status = data.status
             })
           })
