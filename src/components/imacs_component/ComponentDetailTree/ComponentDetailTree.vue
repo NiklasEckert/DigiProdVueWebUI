@@ -1,7 +1,7 @@
 <template>
-  <div class="w-96 max-h-screen flex-shrink-0 border-box pb-2">
-    <h3 class="text-3xl font-bold outline-0 mt-5 mb-5">ComponentTree</h3>
-    <div class="overflow-scroll w-96 max-h-full">
+  <div class="w-96 h-screen flex-shrink-0 border-box flex flex-col p-6">
+    <h3 class="text-3xl font-bold mt-5 mb-5">ComponentTree</h3>
+    <div class="overflow-scroll w-96">
       <ComponentDetailTreeWrapper :component="parentComponent"></ComponentDetailTreeWrapper>
     </div>
   </div>
