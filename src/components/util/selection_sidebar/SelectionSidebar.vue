@@ -1,9 +1,9 @@
 <template>
   <div
-      class="flex flex-col flex-shrink-0 h-screen box-border bg-amber-50 custom-transition relative"
+      class="flex-shrink-0 box-border bg-amber-50 custom-transition relative"
       :class="{ 'w-96': !isCollapsed, 'w-0': isCollapsed }"
   >
-    <div class="overflow-x-hidden whitespace-nowrap">
+    <div class="flex flex-col h-screen whitespace-nowrap overflow-hidden">
       <div class="p-6">
         <SelectionSidebarHeadline :headline="this.headline" />
         <div class="flex flex-row box-border mt-7">
@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <div class="overflow-scroll overflow-x-hidden p-6 pt-0 h-full">
+      <div class="overflow-scroll p-6 pt-0">
         <slot></slot>
       </div>
     </div>

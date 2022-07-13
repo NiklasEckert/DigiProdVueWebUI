@@ -1,5 +1,5 @@
 <template>
-  <DetailScreenContainer v-if="this.loadingDone">
+  <DetailScreenContainer v-if="this.loadingDone" class="p-0">
     <div class="flex flex-row">
       <ComponentDetailTree v-if="viewMode==='change'" :parent-component="this.componentTreeItem">
       </ComponentDetailTree>
