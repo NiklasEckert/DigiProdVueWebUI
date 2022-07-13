@@ -28,14 +28,12 @@
           </div>
 
           <div class="mt-6 pr-4">
-            <label for="if1" class="block text-xs text-black/50">Article Number</label>
-            <input id="if1"
-                   v-model="this.componentType.articleNumber"
-                   placeholder="Article Number"
-                   class="text-xl outline-0 border-b w-full bg-white"
-                   disabled
-            >
+            <label class="block text-xs text-black/50">Article Number</label>
+            <div class="text-xl outline-0 w-full bg-white" :class="{'text-black/50':this.componentType.articleNumber === null}">
+              {{this.componentType.articleNumber ?? "Article Number"}}
+            </div>
           </div>
+
 
           <div class="mt-4 pr-4">
             <label for="if2" class="block text-xs text-black/50">Order number</label>
@@ -56,7 +54,7 @@
             <label for="if3" class="block text-xs text-black/50">Filepath</label>
             <input
                 id="if3"
-                v-model="this.component.filePath"
+                v-model="this.component.filepath"
                 placeholder="Filepath"
                 class="text-xl outline-0 border-b w-full"
             >
@@ -207,7 +205,7 @@ export default {
       loading: false,
       loadingComponentTypes: false,
       loadingComponentType: false,
-      loadingComponentTree:false,
+      loadingComponentTree: false,
       formattedDate: moment().format("DD MMM YYYY HH:mm"),
       component: {
         id: "",
@@ -221,14 +219,18 @@ export default {
         statusName: null,
         componentTypeId: null
       },
-      componentType: null,
+      componentType: {
+        id: null,
+        name: null,
+        articleNumber: null
+      },
       error: null,
       storable: false,
       isDeleteDialogVisible: false,
       isErrorDialogVisible: false,
       isKillDialogVisible: false,
       changeWatcher: null,
-      componentTreeItem:null
+      componentTreeItem: null
     }
   },
   computed: {
@@ -458,14 +460,14 @@ export default {
             this.isErrorDialogVisible = true
           })
     },
-    fetchComponentTree(id){
+    fetchComponentTree(id) {
       this.error = null
       this.loadingComponentTree = true
 
       ComponentFetcher.fetchComponentTree(id)
           .then(response => {
             response.json().then(data => {
-              this.componentTreeItem= data
+              this.componentTreeItem = data
               this.loadingComponentTree = false
             })
           })
