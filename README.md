@@ -1,6 +1,7 @@
 # digiprodvuewebui
 
 ## Project setup
+Change address in ```.env```-File.
 ```
 npm install
 ```
