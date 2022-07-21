@@ -184,7 +184,7 @@
   <ErrorDialog v-show="isErrorDialogVisible" :error_code="this.error" @cancel="this.isErrorDialogVisible = false"/>
 
   <ComponentTypeSearchDialog
-      v-show="isComponentTypeSelectDialogVisible"
+      v-if="isComponentTypeSelectDialogVisible"
       @selected="(id) => {
         fetchComponentType(id)
         this.isComponentTypeSelectDialogVisible = false

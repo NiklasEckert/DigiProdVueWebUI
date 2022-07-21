@@ -16,6 +16,12 @@ export default {
       timeout: null
     }
   },
+  beforeMount() {
+    this.searchKey = ""
+  },
+  mounted() {
+    this.searchKey = this.initialText
+  },
   watch: {
     searchKey(newKey) {
       clearTimeout(this.timeout)
