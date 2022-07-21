@@ -6,7 +6,7 @@ export const fetchWrapper = {
     delete: _delete
 }
 
-const url = new URL("http://localhost:3000")
+const url = new URL(process.env.VUE_APP_ROOT_API)
 
 function get(path) {
     const requestOptions = {
