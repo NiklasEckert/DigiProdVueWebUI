@@ -71,12 +71,10 @@ export default {
   },
   methods: {
     findComponentTypes(key) {
-      this.loadingComponentTypes = true
-
-      if (key === "") {
+      if (key === "" || key === undefined) {
         this.componentTypes = []
-        this.loadingComponentTypes = false
       } else {
+        this.loadingComponentTypes = true
         ComponentTypeFetcher.searchForKey(key, 0, 5)
             .then(response => {
               response.json().then(data => {
