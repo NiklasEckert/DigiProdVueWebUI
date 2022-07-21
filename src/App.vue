@@ -14,10 +14,6 @@ export default {
   name: 'App',
   components: {
     SidebarNav
-  },
-  mounted(){
-    console.log("lol")
-    console.log(process.env.VUE_APP_ROOT_API)
   }
 }
 </script>
