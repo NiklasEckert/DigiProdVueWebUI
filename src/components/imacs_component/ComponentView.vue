@@ -222,7 +222,6 @@ export default {
       formattedDate: moment().format("DD MMM YYYY HH:mm"),
       component: {
         id: "",
-        name: "",
         qrCode: "",
         orderNumber: "",
         birthDate: 0,
@@ -269,7 +268,6 @@ export default {
 
             this.component = {
               id: "",
-              name: "",
               qrCode: "",
               orderNumber: "",
               birthDate: Date.now(),
