@@ -13,14 +13,6 @@
 
         <hr class="my-3">
 
-        <div v-if="selectedComponentType !== null">
-          <SelectedComponentTypeSearchItem
-              :name="selectedComponentType.name"
-              :article-number="selectedComponentType.articleNumber"
-              @deselect="this.selectedComponentType = null"
-          />
-        </div>
-
         <div v-if="loadingComponentTypes" class="text-center">
           Loading Component Types
         </div>
@@ -35,7 +27,9 @@
               :key="componentType.id"
               :article-number="componentType.articleNumber"
               :name="componentType.name"
+              :selected="selectedComponentType !== null && componentType.id === selectedComponentType.id"
               @click="selectedComponentType = componentType"
+              @deselect="this.selectedComponentType = null"
           />
         </div>
       </div>
@@ -60,11 +54,10 @@ import ModalDialog from "@/components/util/dialogs/ModalDialog";
 import SearchBar from "@/components/util/SearchBar";
 import {ComponentTypeFetcher} from "@/utils/ComponentTypeFetcher";
 import ComponentTypeSearchItem from "@/components/util/dialogs/componentType_search_dialog/ComponentTypeSearchItem";
-import SelectedComponentTypeSearchItem
-  from "@/components/util/dialogs/componentType_search_dialog/SelectedComponentTypeSearchItem";
+
 export default {
   name: "ComponentTypeSearchDialog",
-  components: {SelectedComponentTypeSearchItem, ComponentTypeSearchItem, SearchBar, ModalDialog},
+  components: {ComponentTypeSearchItem, SearchBar, ModalDialog},
   data() {
     return {
       loadingComponentTypes: false,
