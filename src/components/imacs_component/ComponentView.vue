@@ -7,14 +7,14 @@
       <div>
         <div class="h-full p-6">
           <div>
-            <select class="form-control text-3xl font-bold outline-0 mt-5" @change="changeComponentType($event)"
-                    :disabled="viewMode === 'change'">
-              <option selected disabled>{{ this.componentType.name ?? "Choose type of component" }}</option>
-              <option v-for="componentTypeItem in compTypeList" :value="componentTypeItem.name"
-                      :key="componentTypeItem.id">
-                {{ componentTypeItem.name }}
-              </option>
-            </select>
+            <button
+                class="text-3xl font-bold outline-0 mt-5"
+                @click="this.isComponentTypeSelectDialogVisible = true"
+                :disabled="viewMode !== 'creation'"
+            >
+              {{ this.componentType.name ?? "Choose type of component" }}
+              <font-awesome-icon v-if="viewMode === 'creation'" icon="fa-solid fa-angle-down" />
+            </button>
           </div>
 
           <div class="mt-4 pr-4">
@@ -182,6 +182,16 @@
   </ModalDialog>
 
   <ErrorDialog v-show="isErrorDialogVisible" :error_code="this.error" @cancel="this.isErrorDialogVisible = false"/>
+
+  <ComponentTypeSearchDialog
+      v-show="isComponentTypeSelectDialogVisible"
+      @selected="(id) => {
+        fetchComponentType(id)
+        this.isComponentTypeSelectDialogVisible = false
+      }"
+      @cancel="() => this.isComponentTypeSelectDialogVisible = false"
+  />
+
 </template>
 
 <script>
@@ -195,10 +205,13 @@ import ModalDialog from "@/components/util/dialogs/ModalDialog";
 import router from "@/router";
 import ErrorDialog from "@/components/util/dialogs/ErrorDialog";
 import ComponentDetailTree from "@/components/imacs_component/ComponentDetailTree/ComponentDetailTree";
+import ComponentTypeSearchDialog from "@/components/util/dialogs/componentType_search_dialog/ComponentTypeSearchDialog";
 
 export default {
   name: "ComponentView",
-  components: {ComponentDetailTree, DetailScreenContainer, ComponentEventTable, ModalDialog, ErrorDialog},
+  components: {
+    ComponentTypeSearchDialog,
+    ComponentDetailTree, DetailScreenContainer, ComponentEventTable, ModalDialog, ErrorDialog},
   data() {
     return {
       compTypeList: [],
@@ -211,12 +224,11 @@ export default {
         id: "",
         name: "",
         qrCode: "",
-        articleNumber: "",
         orderNumber: "",
         birthDate: 0,
         location: "",
-        filePath: "",
-        statusName: null,
+        filepath: "",
+        statusName: "",
         componentTypeId: null
       },
       componentType: {
@@ -230,7 +242,8 @@ export default {
       isErrorDialogVisible: false,
       isKillDialogVisible: false,
       changeWatcher: null,
-      componentTreeItem: null
+      componentTreeItem: null,
+      isComponentTypeSelectDialogVisible: false
     }
   },
   computed: {
@@ -258,16 +271,19 @@ export default {
               id: "",
               name: "",
               qrCode: "",
-              articleNumber: "",
               orderNumber: "",
               birthDate: Date.now(),
               location: "",
-              filePath: "",
-              status: {
-                statusName: "Created"
-              },
-              componentType: {},
+              filepath: "",
+              statusName: "",
+              componentTypeId: null
             }
+            this.componentType = {
+              id: null,
+              name: null,
+              articleNumber: null
+            }
+
             this.loading = false
 
             this.changeWatcher = this.$watch(
@@ -332,7 +348,7 @@ export default {
         location: this.component.location,
         birthdate: this.component.birthDate,
         componentTypeId: this.componentType.id,
-        statusName: this.component.status.statusName
+        statusName: this.component.statusName
       }
 
       ComponentFetcher.saveComponent(newComponent)
