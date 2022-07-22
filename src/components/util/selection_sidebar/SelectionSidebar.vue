@@ -16,6 +16,10 @@
         </div>
       </div>
 
+      <div class="px-6 py-0">
+        <slot name="pagination"></slot>
+      </div>
+
       <div class="overflow-scroll p-6 pt-0">
         <slot></slot>
       </div>
