@@ -71,6 +71,7 @@ export default {
   },
   methods: {
     findComponentTypes(key) {
+      this.selectedComponentType = null
       if (key === "" || key === undefined) {
         this.componentTypes = []
       } else {
