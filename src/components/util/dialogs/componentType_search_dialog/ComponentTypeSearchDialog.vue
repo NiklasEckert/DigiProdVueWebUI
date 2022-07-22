@@ -79,7 +79,7 @@ export default {
         ComponentTypeFetcher.searchForKey(key, 0, 5)
             .then(response => {
               response.json().then(data => {
-                this.componentTypes = data
+                this.componentTypes = data.content
                 this.loadingComponentTypes = false
               })
             })
