@@ -226,7 +226,7 @@ export default {
         orderNumber: "",
         birthDate: 0,
         location: "",
-        filepath: "",
+        filePath: "",
         statusName: "",
         componentTypeId: null
       },
