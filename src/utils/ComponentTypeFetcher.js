@@ -16,8 +16,8 @@ function getComponentType(id) {
     return fetchWrapper.get("componentType/" + id)
 }
 
-function searchForKey(searchKey) {
-    return fetchWrapper.get("componentType/search?" + new URLSearchParams({ key: searchKey }))
+function searchForKey(searchKey, page = 0, size = 50) {
+    return fetchWrapper.get("componentType/search?" + new URLSearchParams({ key: searchKey, page: ''+page, size: ''+size }))
 }
 
 function saveComponentType(body) {

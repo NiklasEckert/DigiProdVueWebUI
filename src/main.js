@@ -19,6 +19,8 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faLineChart)
 library.add(faMicrochip)
@@ -34,6 +36,8 @@ library.add(faSkull)
 library.add(faXmark)
 library.add(faAngleRight)
 library.add(faAngleLeft)
+library.add(faAngleDown)
+library.add(faCheck)
 
 createApp(App)
     .use(router)
