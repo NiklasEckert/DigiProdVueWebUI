@@ -10,7 +10,8 @@ export const ComponentFetcher = {
     deleteComponent,
     disconnectFromParent,
     updateComponent,
-    fetchComponentTree
+    fetchComponentTree,
+    setParentOfComponent
 }
 
 function disconnectFromParent(id) {
@@ -50,4 +51,8 @@ function updateComponent(id, updates) {
 }
 function fetchComponentTree(id){
     return fetchWrapper.get("component/"+id+"/tree");
+}
+
+function setParentOfComponent(subId, parentId) {
+    return fetchWrapper.patch("component/"+subId+"/setParent?" + new URLSearchParams({ parentId: parentId }))
 }
