@@ -24,6 +24,7 @@
 import SearchListTable from "@/components/util/selection_sidebar/search_list_table/SearchListTable";
 import SearchListTableItem from "@/components/util/selection_sidebar/search_list_table/SearchListTableItem";
 import SearchListTableRow from "@/components/util/selection_sidebar/search_list_table/SearchListTableRow";
+
 export default {
   name: "ComponentTypesTable",
   components: {SearchListTableRow, SearchListTableItem, SearchListTable},
