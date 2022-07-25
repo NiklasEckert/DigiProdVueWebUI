@@ -112,13 +112,12 @@
 
           <div class="mt-4 flex flex-row">
             <button
-                class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg "
-                :class="{ 'text-gray-400 bg-amber-200/25': true}"
-                :disabled="true"
+                class="bg-amber-200 hover:bg-amber-400 text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg "
                 v-show="this.$route.query.id"
+                @click="isAddSubcomponetDialogVisible = true"
             >
               <font-awesome-icon icon="fa-solid fa-puzzle-piece" class="mr-1"/>
-              Add subcomponent (WIP)
+              Add subcomponent
             </button>
 
             <button
@@ -181,8 +180,6 @@
     </template>
   </ModalDialog>
 
-  <ErrorDialog v-show="isErrorDialogVisible" :error_code="this.error" @cancel="this.isErrorDialogVisible = false"/>
-
   <ComponentTypeSearchDialog
       v-if="isComponentTypeSelectDialogVisible"
       @selected="(id) => {
@@ -191,6 +188,14 @@
       }"
       @cancel="() => this.isComponentTypeSelectDialogVisible = false"
   />
+
+  <AddSubcomponentDialog
+    v-if="isAddSubcomponetDialogVisible"
+    @added="(id) => addSubcomponent(id)"
+    @cancel="() => this.isAddSubcomponetDialogVisible = false"
+  />
+
+  <ErrorDialog v-if="isErrorDialogVisible" :error_code="this.error" @cancel="this.isErrorDialogVisible = false"/>
 
 </template>
 
@@ -206,10 +211,12 @@ import router from "@/router";
 import ErrorDialog from "@/components/util/dialogs/ErrorDialog";
 import ComponentDetailTree from "@/components/imacs_component/ComponentDetailTree/ComponentDetailTree";
 import ComponentTypeSearchDialog from "@/components/util/dialogs/componentType_search_dialog/ComponentTypeSearchDialog";
+import AddSubcomponentDialog from "@/components/imacs_component/add_subcomponent_search_dialog/AddSubcomponentDialog";
 
 export default {
   name: "ComponentView",
   components: {
+    AddSubcomponentDialog,
     ComponentTypeSearchDialog,
     ComponentDetailTree, DetailScreenContainer, ComponentEventTable, ModalDialog, ErrorDialog},
   data() {
@@ -242,7 +249,8 @@ export default {
       isKillDialogVisible: false,
       changeWatcher: null,
       componentTreeItem: null,
-      isComponentTypeSelectDialogVisible: false
+      isComponentTypeSelectDialogVisible: false,
+      isAddSubcomponetDialogVisible: false
     }
   },
   computed: {
@@ -491,6 +499,23 @@ export default {
             this.isErrorDialogVisible = true
           })
 
+    },
+    addSubcomponent(id) {
+      this.error = null
+
+      ComponentFetcher.setParentOfComponent(id, this.component.id)
+          .then(response => {
+            if (response.ok) {
+              this.fetchComponentTree(this.component.id)
+              this.isAddSubcomponetDialogVisible = false
+            } else {
+              throw Error("It is not possible to add this subcomponent. It would create a circle in the component tree.")
+            }
+          })
+          .catch(error => {
+            this.error = error
+            this.isErrorDialogVisible = true
+          })
     }
   }
 }
