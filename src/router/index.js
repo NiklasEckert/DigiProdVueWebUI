@@ -3,6 +3,7 @@ import DashboardView from "@/components/dashboard/DashboardView";
 import WorkstationsView from "@/components/workstation/WorkstationsView";
 import componentTypesView from "@/components/component_type/ComponentTypesView";
 import employeesView from "@/components/employee/EmployeesView";
+import employeeView from "@/components/employee/EmployeeView";
 import NoItemSelectedView from "@/components/util/no_item_selected/NoItemSelectedView";
 import componentsView from "@/components/imacs_component/ComponentsView";
 import componentView from "@/components/imacs_component/ComponentView";
@@ -60,13 +61,39 @@ export const componentRoute = {
     ]
 }
 
+export const employeeRoute = {
+    navCaption: "Employees",
+    path: '/employees',
+    name: 'employees',
+    component: employeesView,
+    position: 'sidebar',
+    icon: ['fas', 'user-large'],
+    children: [
+        {
+            path: 'employee',
+            name: 'employee',
+            component: employeeView
+        },
+        {
+            path: '',
+            name: 'noEmployeeSelected',
+            component: NoItemSelectedView,
+            props: {
+                icon: ['fas', 'user-large'],
+                text_primary: "No Employee selected",
+                text_secondary: "Click on a entry on the left!"
+            }
+        }
+    ]
+}
+
 const routes = [
     {navCaption: "Home", path: '/', name: 'Home', redirect: '/dashboard', component: DashboardView, position: 'none', icon: ['fas', 'lineChart']},
     {navCaption: "Dashboard", path: '/dashboard', name: 'Dashboard', component: DashboardView, position: 'sidebar', icon: ['fas', 'chart-line']},
     componentTypeRoute,
     componentRoute,
+    employeeRoute,
     {navCaption: "Workstations", path: '/workstations', name: 'Workstations', component: WorkstationsView, position: 'sidebar', icon: ['fas', 'computer']},
-    {navCaption: "Employees", path: '/employee', name: 'Mitarbeiter', component: employeesView, position: 'sidebar', icon: ['fas', 'user-large']},
 ]
 
 const router = createRouter({
