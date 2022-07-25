@@ -7,7 +7,7 @@
         class="text-3xl font-bold outline-0 w-full"
     >
     <div class="mt-12 pr-4">
-      <label for="inputField" class="block text-xs text-black/50">Article Number</label>
+      <label for="inputField" class="block text-xs text-black/50">Type</label>
       <input
           id="inputField"
           v-model="this.workstation.type"
