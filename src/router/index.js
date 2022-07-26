@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import DashboardView from "@/components/dashboard/DashboardView";
-import WorkstationsView from "@/components/workstation/WorkstationsView";
 import componentTypesView from "@/components/component_type/ComponentTypesView";
 import employeesView from "@/components/employee/EmployeesView";
 import employeeView from "@/components/employee/EmployeeView";
@@ -8,6 +7,8 @@ import NoItemSelectedView from "@/components/util/no_item_selected/NoItemSelecte
 import componentsView from "@/components/imacs_component/ComponentsView";
 import componentView from "@/components/imacs_component/ComponentView";
 import ComponentTypeDetailScreen from "@/components/component_type/ComponentTypeDetailScreen";
+import workstationsView from "@/components/workstation/WorkstationsView";
+import WorkstationView from "@/components/workstation/WorkstationView";
 
 export const componentTypeRoute = {
     navCaption: "Comp. Types",
@@ -87,13 +88,40 @@ export const employeeRoute = {
     ]
 }
 
+export const workstations = {
+    navCaption: "Workstations",
+    path: '/workstations',
+    name: 'workstations',
+    component: workstationsView,
+    position: 'sidebar',
+    icon: ['fas', 'computer'],
+    children: [
+        {
+            path: 'workstation',
+            name: 'workstation',
+            component: WorkstationView
+        },
+        {
+            path: '',
+            name: 'noWorkstationSelected',
+            component: NoItemSelectedView,
+            props: {
+                icon: ['fas', 'computer'],
+                text_primary: "No workstation selected",
+                text_secondary: "Click on a entry on the left!"
+            }
+        }
+    ]
+}
+
+
 const routes = [
     {navCaption: "Home", path: '/', name: 'Home', redirect: '/dashboard', component: DashboardView, position: 'none', icon: ['fas', 'lineChart']},
     {navCaption: "Dashboard", path: '/dashboard', name: 'Dashboard', component: DashboardView, position: 'sidebar', icon: ['fas', 'chart-line']},
     componentTypeRoute,
     componentRoute,
     employeeRoute,
-    {navCaption: "Workstations", path: '/workstations', name: 'Workstations', component: WorkstationsView, position: 'sidebar', icon: ['fas', 'computer']},
+    workstations,
 ]
 
 const router = createRouter({
