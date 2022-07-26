@@ -10,7 +10,7 @@
     <template v-slot:pagination>
       <div class="flex flex-row">
         <select
-            class="border-gray-400 border-2 rounded-md"
+            class="border-0 bg-amber-50 pl-1.5 outline-0 border-b ring-0"
             name="active-choice"
             id="active-choice"
             @change="setActiveChoice($event)"
