@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import DashboardView from "@/components/dashboard/DashboardView";
-import WorkstationsView from "@/components/workstation/WorkstationsView";
 import componentTypesView from "@/components/component_type/ComponentTypesView";
 import employeesView from "@/components/employee/EmployeesView";
 import employeeView from "@/components/employee/EmployeeView";
