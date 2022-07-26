@@ -8,17 +8,23 @@
   >
 
     <template v-slot:pagination>
-      <div class="flex flex-row">
-        <select
-            class="border-0 bg-amber-50 pl-1.5 outline-0 border-b ring-0"
-            name="active-choice"
-            id="active-choice"
-            @change="setActiveChoice($event)"
-        >
-          <option value="true" :selected="this.employeeSearchState.active === 'true'">Active</option>
-          <option value="false" :selected="this.employeeSearchState.active === 'false'">Inactive</option>
-          <option value="" :selected="this.employeeSearchState.active === ''">All</option>
-        </select>
+      <div class="flex flex-row justify-between">
+        <div>
+          <div class="border-b px-1.5">
+            <select
+                class="appearance-none bg-amber-50"
+                name="active-choice"
+                id="active-choice"
+                @change="setActiveChoice($event)"
+            >
+              <option value="true" :selected="this.employeeSearchState.active === 'true'">Active</option>
+              <option value="false" :selected="this.employeeSearchState.active === 'false'">Inactive</option>
+              <option value="" :selected="this.employeeSearchState.active === ''">All</option>
+            </select>
+            <font-awesome-icon icon="fa-solid fa-caret-down" />
+          </div>
+        </div>
+
         <pageination-row
             :current-page="this.employeeSearchState.page.number"
             :count-pages="this.employeeSearchState.page.totalPages"

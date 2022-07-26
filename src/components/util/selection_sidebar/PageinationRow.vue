@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row w-full justify-end ">
+  <div class="flex flex-row justify-end ">
     <button class="ml-1" @click="this.$emit('firstPage')" :disabled="isFirst" :class="{ 'text-gray-400':isFirst, 'hover:cursor-pointer':!isFirst }">
       <font-awesome-icon icon="fa-solid fa-angles-left" />
     </button>

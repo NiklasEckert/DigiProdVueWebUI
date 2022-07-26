@@ -23,6 +23,7 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
 import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faLineChart)
 library.add(faMicrochip)
@@ -42,6 +43,7 @@ library.add(faAngleDown)
 library.add(faCheck)
 library.add(faAnglesLeft)
 library.add(faAnglesRight)
+library.add(faCaretDown)
 
 createApp(App)
     .use(router)
