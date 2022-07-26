@@ -14,10 +14,10 @@
             name="active-choice"
             id="active-choice"
             @change="setActiveChoice($event)"
-            v-model="key">
-          <option value="true" selected="selected">Active</option>
-          <option value="false">Inactive</option>
-          <option value="">All</option>
+        >
+          <option value="true" :selected="this.employeeSearchState.active === 'true'">Active</option>
+          <option value="false" :selected="this.employeeSearchState.active === 'false'">Inactive</option>
+          <option value="" :selected="this.employeeSearchState.active === ''">All</option>
         </select>
         <pageination-row
             :current-page="this.employeeSearchState.page.number"
@@ -74,7 +74,7 @@ export default {
     fetchSearch(key, page=0) {
       this.employeeSearchState.key = key
 
-      this.error = this.post = null
+      this.error = null
       this.loading = true
 
       EmployeeFetcher.searchForKey(key, page, 20, employeeSearchState.active)
