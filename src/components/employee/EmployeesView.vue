@@ -8,17 +8,23 @@
   >
 
     <template v-slot:pagination>
-      <div class="flex flex-row">
-        <select
-            class="border-gray-400 border-2 rounded-md"
-            name="active-choice"
-            id="active-choice"
-            @change="setActiveChoice($event)"
-            v-model="key">
-          <option value="true" selected="selected">Active</option>
-          <option value="false">Inactive</option>
-          <option value="">All</option>
-        </select>
+      <div class="flex flex-row justify-between">
+        <div>
+          <div class="border-b px-1.5">
+            <select
+                class="appearance-none bg-amber-50"
+                name="active-choice"
+                id="active-choice"
+                @change="setActiveChoice($event)"
+            >
+              <option value="true" :selected="this.employeeSearchState.active === 'true'">Active</option>
+              <option value="false" :selected="this.employeeSearchState.active === 'false'">Inactive</option>
+              <option value="" :selected="this.employeeSearchState.active === ''">All</option>
+            </select>
+            <font-awesome-icon icon="fa-solid fa-caret-down" />
+          </div>
+        </div>
+
         <pageination-row
             :current-page="this.employeeSearchState.page.number"
             :count-pages="this.employeeSearchState.page.totalPages"
@@ -74,7 +80,7 @@ export default {
     fetchSearch(key, page=0) {
       this.employeeSearchState.key = key
 
-      this.error = this.post = null
+      this.error = null
       this.loading = true
 
       EmployeeFetcher.searchForKey(key, page, 20, employeeSearchState.active)
