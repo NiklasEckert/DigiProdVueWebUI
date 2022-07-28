@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: "PageinationRow",
+  name: "PaginationRow",
   props: [
       'currentPage',
       'countPages',

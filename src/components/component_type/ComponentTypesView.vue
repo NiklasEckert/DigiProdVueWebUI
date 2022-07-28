@@ -7,7 +7,7 @@
       @addButtonPressed="() => $router.push({ name: 'compType', query: { viewMode: 'creation' }})"
   >
     <template v-slot:pagination>
-      <pageination-row
+      <pagination-row
           :current-page="this.componentTypesSearchState.page.number"
           :count-pages="this.componentTypesSearchState.page.totalPages"
           :is-first="this.componentTypesSearchState.page.first"
@@ -30,11 +30,11 @@ import {ComponentTypeFetcher} from "@/utils/ComponentTypeFetcher";
 import ComponentTypesTable from "@/components/component_type/ComponentTypesTable";
 import SelectionSidebar from "@/components/util/selection_sidebar/SelectionSidebar";
 import {componentTypesSearchState} from "@/components/component_type/componentTypes";
-import PageinationRow from "@/components/util/selection_sidebar/PageinationRow";
+import PaginationRow from "@/components/util/selection_sidebar/PaginationRow";
 
 export default {
   name: "ComponentTypesView",
-  components: {PageinationRow, SelectionSidebar, ComponentTypesTable},
+  components: {PaginationRow, SelectionSidebar, ComponentTypesTable},
   data() {
     return {
       loading: false,

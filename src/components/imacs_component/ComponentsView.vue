@@ -7,7 +7,7 @@
       @addButtonPressed="() => $router.push({ name: 'component', query: { viewMode: 'creation' }})"
   >
     <template v-slot:pagination>
-      <pageination-row
+      <pagination-row
           :current-page="this.componentSearchState.page.number"
           :count-pages="this.componentSearchState.page.totalPages"
           :is-first="this.componentSearchState.page.first"
@@ -30,11 +30,11 @@ import {ComponentFetcher} from "@/utils/ComponentFetcher";
 import ComponentTable from "@/components/imacs_component/ComponentTable";
 import SelectionSidebar from "@/components/util/selection_sidebar/SelectionSidebar";
 import {componentSearchState} from "@/components/imacs_component/Component";
-import PageinationRow from "@/components/util/selection_sidebar/PageinationRow";
+import PaginationRow from "@/components/util/selection_sidebar/PaginationRow";
 
 export default {
   name: "ComponentsView",
-  components: {PageinationRow, SelectionSidebar, ComponentTable},
+  components: {PaginationRow, SelectionSidebar, ComponentTable},
   data() {
     return {
       loading: false,
