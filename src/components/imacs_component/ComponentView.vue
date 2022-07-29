@@ -233,7 +233,7 @@ export default {
         orderNumber: "",
         birthDate: 0,
         location: "",
-        filePath: "",
+        filepath: "",
         statusName: "",
         componentTypeId: null
       },
@@ -348,7 +348,7 @@ export default {
     saveComponent() {
       let newComponent = {
         id: this.component.id,
-        filepath: this.component.filePath,
+        filepath: this.component.filepath,
         qrCode: this.component.qrCode,
         orderNumber: this.component.orderNumber,
         location: this.component.location,
