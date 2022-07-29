@@ -40,7 +40,7 @@
 
   <ModalDialog
       v-show="isDeleteDialogVisible"
-      title="Delete Component Type?"
+      title="Delete Article Description?"
       hint="This cannot be undone!"
       @cancel="isDeleteDialogVisible = false"
   >

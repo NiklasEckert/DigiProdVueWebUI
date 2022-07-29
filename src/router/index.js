@@ -29,7 +29,7 @@ export const componentTypeRoute = {
             component: NoItemSelectedView,
             props: {
                 icon: ['fas', 'microchip'],
-                text_primary: "No Component Type selected",
+                text_primary: "No Article Description selected",
                 text_secondary: "Click on a entry on the left!"
             }
         }
