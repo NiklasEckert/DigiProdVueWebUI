@@ -12,7 +12,7 @@
         <div>
           <div class="border-b px-1.5">
             <select
-                class="appearance-none bg-amber-50"
+                class="appearance-none bg-amber-50 hover:cursor-pointer"
                 name="active-choice"
                 id="active-choice"
                 @change="setActiveChoice($event)"
