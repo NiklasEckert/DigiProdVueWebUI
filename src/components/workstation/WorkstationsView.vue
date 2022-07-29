@@ -7,7 +7,7 @@
       @addButtonPressed="() => $router.push({ name: 'workstation', query: { viewMode: 'creation' }})"
   >
     <template v-slot:pagination>
-      <pageination-row
+      <pagination-row
           :current-page="this.workstationsSearchState.page.number"
           :count-pages="this.workstationsSearchState.page.totalPages"
           :is-first="this.workstationsSearchState.page.first"
@@ -27,14 +27,14 @@
 
 <script>
 import SelectionSidebar from "@/components/util/selection_sidebar/SelectionSidebar";
-import PageinationRow from "@/components/util/selection_sidebar/PageinationRow";
+import PaginationRow from "@/components/util/selection_sidebar/PaginationRow";
 import {workstationsSearchState} from "@/components/workstation/workstationTypes";
 import WorkstationsTable from "@/components/workstation/WorkstationsTable";
 import {WorkstationFetcher} from "@/utils/WorkstationFetcher";
 
 export default {
   name: "WorkstationsView",
-  components: {PageinationRow, SelectionSidebar, WorkstationsTable},
+  components: {PaginationRow, SelectionSidebar, WorkstationsTable},
   data() {
     return {
       loading: false,

@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <pageination-row
+        <pagination-row
             :current-page="this.employeeSearchState.page.number"
             :count-pages="this.employeeSearchState.page.totalPages"
             :is-first="this.employeeSearchState.page.first"
@@ -53,11 +53,11 @@ import {EmployeeFetcher} from "@/utils/EmployeeFetcher";
 import EmployeeTable from "@/components/employee/EmployeeTable";
 import SelectionSidebar from "@/components/util/selection_sidebar/SelectionSidebar";
 import {employeeSearchState} from "@/components/employee/employee";
-import PageinationRow from "@/components/util/selection_sidebar/PageinationRow";
+import PaginationRow from "@/components/util/selection_sidebar/PaginationRow";
 
 export default {
   name: "EmployeeView",
-  components: {PageinationRow, SelectionSidebar, EmployeeTable},
+  components: {PaginationRow, SelectionSidebar, EmployeeTable},
   data() {
     return {
       loading: false,
