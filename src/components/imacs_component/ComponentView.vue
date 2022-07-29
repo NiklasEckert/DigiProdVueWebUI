@@ -112,8 +112,11 @@
 
           <div class="mt-4 flex flex-row">
             <button
-                class="bg-amber-200 hover:bg-amber-400 text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg "
+                class="text-black block py-2 px-3 rounded-md whitespace-nowrap drop-shadow-lg "
+                :class="{ 'bg-amber-200 hover:bg-amber-400 hover:bg-amber-400 hover:cursor-pointer': this.$route.query.id && this.component.statusName !== 'Killed',
+                'text-gray-400 bg-amber-200/25': this.component.statusName === 'Killed'}"
                 v-show="this.$route.query.id"
+                :disabled="this.component.statusName === 'Killed'"
                 @click="isAddSubcomponetDialogVisible = true"
             >
               <font-awesome-icon icon="fa-solid fa-puzzle-piece" class="mr-1"/>
@@ -123,8 +126,8 @@
             <button
                 class="text-black block py-2 px-3 rounded-md ml-3 text-black whitespace-nowrap drop-shadow-lg"
                 :class="{ 'bg-amber-200 hover:bg-amber-400 hover:text-white hover:cursor-pointer': (this.$route.query.id && this.component.parentId), 'text-gray-400 bg-amber-200/25': this.$route.query.id, 'text-gray-400 bg-amber-200/25': !this.component.parentId }"
-                @click="disconnectFromParent"
                 :disabled="!this.component.parentId"
+                @click="disconnectFromParent"
                 v-show="this.$route.query.id"
             >
               <font-awesome-icon icon="fa-solid fa-scissors" class="mr-1"/>
