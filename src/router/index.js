@@ -11,7 +11,7 @@ import workstationsView from "@/components/workstation/WorkstationsView";
 import WorkstationView from "@/components/workstation/WorkstationView";
 
 export const componentTypeRoute = {
-    navCaption: "Comp. Types",
+    navCaption: "Article Description",
     path: '/component-types',
     name: 'compTypes',
     component: componentTypesView,

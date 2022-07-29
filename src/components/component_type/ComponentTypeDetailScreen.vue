@@ -1,9 +1,9 @@
 <template>
   <DetailScreenContainer>
-    <label class="block text-xs text-black/50 mt-5">Component Type Name</label>
+    <label class="block text-xs text-black/50 mt-5">Article Description</label>
     <input
         v-model="this.compType.name"
-        placeholder="Type Name"
+        placeholder="Article Description"
         class="text-3xl font-bold outline-0 w-full"
     >
     <div class="mt-12 pr-4">

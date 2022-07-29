@@ -8,11 +8,11 @@
         <div class="h-full p-6">
           <div>
             <button
-                class="text-3xl font-bold outline-0 mt-5"
+                class="text-xl font-bold outline-0 mt-5"
                 @click="this.isComponentTypeSelectDialogVisible = true"
                 :disabled="viewMode !== 'creation'"
             >
-              {{ this.componentType.name ?? "Choose type of component" }}
+              {{ this.componentType.name ?? "Choose article description of component" }}
               <font-awesome-icon v-if="viewMode === 'creation'" icon="fa-solid fa-angle-down" />
             </button>
           </div>
