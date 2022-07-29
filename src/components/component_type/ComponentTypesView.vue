@@ -1,6 +1,6 @@
 <template>
   <SelectionSidebar
-      headline="Component Types"
+      headline="Article Description"
       search-bar-placeholder="Name or Article Number"
       :search-text="this.componentTypesSearchState.key"
       @searchKeyEntered="(key) => fetchSearch(key)"

@@ -11,7 +11,7 @@ import workstationsView from "@/components/workstation/WorkstationsView";
 import WorkstationView from "@/components/workstation/WorkstationView";
 
 export const componentTypeRoute = {
-    navCaption: "Comp. Types",
+    navCaption: "Article Description",
     path: '/component-types',
     name: 'compTypes',
     component: componentTypesView,
@@ -29,7 +29,7 @@ export const componentTypeRoute = {
             component: NoItemSelectedView,
             props: {
                 icon: ['fas', 'microchip'],
-                text_primary: "No Component Type selected",
+                text_primary: "No Article Description selected",
                 text_secondary: "Click on a entry on the left!"
             }
         }

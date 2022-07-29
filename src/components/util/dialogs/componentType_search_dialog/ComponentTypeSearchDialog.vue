@@ -1,6 +1,6 @@
 <template>
   <ModalDialog
-    title="Choose a Component Type"
+    title="Choose a article description"
     hint=""
   >
     <template v-slot:additionalFunction>
