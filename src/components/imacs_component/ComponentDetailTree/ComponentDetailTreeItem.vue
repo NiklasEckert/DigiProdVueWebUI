@@ -1,11 +1,19 @@
 <template>
   <router-link
-      class="border-2 border-amber-200 rounded-xl p-3 w-64 mb-2 block"
-      :class="{ 'bg-amber-200':isSelected } "
+      class="rounded-xl p-3 w-64 mb-2 block"
+      :class="{'bg-amber-200':isSelected && component.statusName !== 'Killed',
+              'bg-red-400':isSelected && component.statusName === 'Killed',
+               'border-red-400':component.statusName === 'Killed',
+               'border-amber-200': component.statusName !== 'Killed',
+               'border-2': !isSelected}"
       :to="{name:'component',query:{id:component.id,viewMode:'change'}}"
   >
-    <div class="text-xl font-bold mb-3">{{ component.componentType.name }}</div>
-    <div class="flex flex-row justify-between">
+    <div class ="flex flex-row" style="align-items: baseline">
+      <font-awesome-icon icon="fa-skull" class="mr-2" v-if="component.statusName === 'Killed'"/>
+      <div class="text-xl font-bold mb-3">{{ component.componentType.name }}</div>
+    </div>
+
+    <div class="flex flex-row justify-between" style="vertical-align: top">
       <div>{{ this.formattedBirthdate }}</div>
       <div>{{ component.componentType.articleNumber }}</div>
     </div>
